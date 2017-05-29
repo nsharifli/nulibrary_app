@@ -46,6 +46,8 @@ group :development, :test do
   gem 'byebug', platform: :mri
   # Use rspec for testing
   gem 'rspec-rails'
+  # Use capybara for feature testing
+  gem 'capybara'
 end
 
 group :development do
