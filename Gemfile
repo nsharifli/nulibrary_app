@@ -49,6 +49,7 @@ group :development, :test do
   # Use capybara for feature testing
   gem 'capybara'
   gem 'poltergeist'
+  gem 'factory_girl_rails'
 end
 
 group :development do

@@ -9,6 +9,7 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
+require 'support/factory_girl'
 
 
 Capybara.register_driver :poltergeist do |app|
