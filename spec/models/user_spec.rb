@@ -12,4 +12,16 @@ RSpec.describe User, type: :model do
     # Expects to return an error message
     expect(result).to eq(true)
   end
+
+  it "takes valid email addresses" do
+    user = FactoryGirl.build(:user, email: 'dkjfdkjf')
+
+    # validate user
+    result = user.valid?
+
+    # Expects to return an error message
+    expect(result).to eq(false)
+  end
+
+
 end
