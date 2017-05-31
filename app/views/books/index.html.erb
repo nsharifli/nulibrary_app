@@ -2,6 +2,6 @@
 
 <ul>
   <% @books.each do |book| %>
-      <li><a href="#"><%= book.title %></a></li>
+      <li><a href=<%= book_path(book.id) %>><%= book.title %></a></li>
   <% end %>
 </ul>
