@@ -30,7 +30,7 @@ describe "Nulibrary", type: :feature, driver: :selenium do
     BookPage.new.click('Book1')
 
     expect(page).to have_current_path(book_path(book_1.id))
-    expect(page).to have_selector("input[type=submit][value='Borrow']")
+    expect(page).to have_button('Borrow')
   end
 
 
