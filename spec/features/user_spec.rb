@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative '../support/pages/Book_object'
 
-describe "User", type: :feature do
+describe "User", type: :feature, driver: :selenium do
   it "checks out book through book details page" do
     book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
     user_1 = FactoryGirl.create(:user, email: "foo@bar.com")
