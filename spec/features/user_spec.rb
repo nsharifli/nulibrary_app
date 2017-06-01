@@ -1,5 +1,6 @@
 require 'rails_helper'
 require_relative '../support/pages/Book_object'
+require_relative '../support/pages/User_login_page'
 
 describe "User", type: :feature, driver: :selenium do
   it "checks out book through book details page" do
@@ -8,9 +9,11 @@ describe "User", type: :feature, driver: :selenium do
     user_1 = FactoryGirl.create(:user, email: "foo@bar.com")
 
     visit user_session_path
-    fill_in('Email', :with => user_1.email)
-    fill_in('Password', :with => user_1.password)
-    click_button("Log in")
+
+    user_log_in_page = UserLogInPage.new
+    user_log_in_page.fill_in_email(user_1.email)
+    user_log_in_page.fill_in_password(user_1.password)
+    user_log_in_page.click_button("Log in")
 
     visit book_path(book_1.id)
     click_button("Borrow")
