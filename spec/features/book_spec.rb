@@ -26,12 +26,16 @@ describe "Nulibrary", type: :feature, driver: :selenium do
     fill_in('Password', :with => user_1.password)
     click_button("Log in")
 
-    visit books_path
-    BookPage.new.click('Book1')
+    visit book_path(book_1.id)
 
-    expect(page).to have_current_path(book_path(book_1.id))
-    expect(page).to have_button('Borrow')
+    expect(page).to have_selector('#borrow')
   end
 
+  it "doesn't have borrow button in book details when user is not logged-in" do
+    book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
 
+    visit book_path(book_1.id)
+
+    expect(page).not_to have_selector('#borrow')
+  end
 end
