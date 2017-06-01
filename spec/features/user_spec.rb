@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative '../support/pages/Book_object'
 
-describe "User", type: :feature, driver: :selenium do
+describe "User", type: :feature do
   it "checks out book through book details page" do
     book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
     user_1 = FactoryGirl.create(:user, email: "foo@bar.com")
@@ -13,6 +13,8 @@ describe "User", type: :feature, driver: :selenium do
 
     visit book_path(book_1.id)
     click_button("Borrow")
+
+    expect(page).to have_selector(".notice", :text => "Successfully borrowed #{book_1.title}")
   end
 
 
