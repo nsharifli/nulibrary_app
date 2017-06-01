@@ -6,4 +6,8 @@ class BooksController < ApplicationController
   def show
   end
 
+  def borrow
+    flash[:notice] = "Successfully borrowed"
+  end
+
 end

@@ -14,8 +14,6 @@ describe "User", type: :feature do
     visit book_path(book_1.id)
     click_button("Borrow")
 
-    expect(page).to have_selector(".notice", :text => "Successfully borrowed #{book_1.title}")
+    expect(page).to have_selector(".notice", :text => "Successfully borrowed")
   end
-
-
 end

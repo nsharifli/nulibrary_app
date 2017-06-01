@@ -23,4 +23,16 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include('Book1')
     end
   end
+
+  describe "GET books#borrow" do
+    it "borrows a book" do
+      book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
+      user_1 = FactoryGirl.create(:user, email: "example@gmail.com")
+
+
+      post borrow_book_path(book_1.id)
+
+      expect(response.body).to include "Successfully borrowed"
+    end
+  end
 end
