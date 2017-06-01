@@ -2,18 +2,17 @@ require 'rails_helper'
 require_relative '../support/pages/Book_object'
 
 describe "Nulibrary", type: :feature, driver: :selenium do
-  xit "shows list of books" do
+  it "shows list of books" do
     visit books_path
     expect(page).to have_content 'All books'
   end
 
-  xit "opens book details page when clicked at book" do
+  it "opens book details page when clicked at book" do
     book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
 
     visit books_path
 
     BookPage.new.click('Book1')
-    sleep(15)
     expect(page).to have_current_path(book_path(book_1.id))
   end
 
@@ -35,7 +34,6 @@ describe "Nulibrary", type: :feature, driver: :selenium do
     book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
 
     visit book_path(book_1.id)
-
     expect(page).not_to have_selector('#borrow')
   end
 end

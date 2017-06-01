@@ -1,2 +1,4 @@
 <h1><%= Book.find(params[:id]).title %></h1>
-<button type="button" id="borrow">Borrow</button>
+<% if @user != nil %>
+  <button type="button" id="borrow">Borrow</button>
+<% end %>
