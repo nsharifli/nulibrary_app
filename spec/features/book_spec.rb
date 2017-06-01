@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative '../support/pages/Book_object'
 
-describe "Nulibrary", type: :feature, driver: :selenium do
+describe "Nulibrary", type: :feature do
   it "shows list of books" do
     visit books_path
     expect(page).to have_content 'All books'

@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
 
-  it "takes valid email addresses" do
+  it "is valid when email address is well formed" do
     user = User.create(email: 'example@google.com', password: 'password')
 
     # validate user
@@ -13,7 +12,7 @@ RSpec.describe User, type: :model do
     expect(result).to eq(true)
   end
 
-  it "takes valid email addresses" do
+  it "is invalid when email address is not well formed" do
     user = FactoryGirl.build(:user, email: 'dkjfdkjf')
 
     # validate user
