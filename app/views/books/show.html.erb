@@ -1,6 +1,6 @@
 <h1><%= Book.find(params[:id]).title %></h1>
 <% if user_signed_in? %>
-  <%= button_to "Borrow", borrow_book_path %>
+  <%= button_to "Borrow", borrow_book_path, { class: 'borrow-button'} %>
 <% end %>
 
 
