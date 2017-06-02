@@ -4,6 +4,12 @@ class BooksController < ApplicationController
   end
 
   def show
+    @book = Book.find(params[:id])
+  end
+
+  def borrow
+    Book.find(params[:id]).borrow
+    flash[:notice] = "Successfully borrowed"
   end
 
 end
