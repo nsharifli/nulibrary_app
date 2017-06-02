@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative '../support/pages/Book_object'
 
-describe "Nulibrary", type: :feature do
+RSpec.describe "Nulibrary", type: :feature do
   it "shows list of books" do
     visit books_path
     expect(page).to have_content 'All books'
@@ -19,7 +19,7 @@ describe "Nulibrary", type: :feature do
   it "has borrow button in book details when user is logged-in and inventory is greater than zero" do
     book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
     user_1 = FactoryGirl.create(:user, email: "foo@bar.com")
-    inventory_1 = FactoryGirl.create(:inventory, total_quantity: 4, current_quantity: 2, book: book_1)
+    FactoryGirl.create(:inventory, total_quantity: 4, current_quantity: 2, book: book_1)
 
     visit user_session_path
     fill_in('Email', :with => user_1.email)
