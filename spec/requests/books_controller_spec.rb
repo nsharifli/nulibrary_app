@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 RSpec.describe BooksController, type: :request do
   describe "GET books#index" do
     it "index page returns list of books" do

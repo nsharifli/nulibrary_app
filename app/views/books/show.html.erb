@@ -1,5 +1,5 @@
 <h1><%= @book.title %></h1>
-<% if user_signed_in? && @current_quantity > 0%>
+<% if user_signed_in? && @book.current_quantity > 0%>
   <%= button_to "Borrow", borrow_book_path, { class: 'borrow-button'} %>
 <% end %>
 
