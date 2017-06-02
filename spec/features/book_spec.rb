@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative '../support/pages/book_index_page'
 
 RSpec.describe "Nulibrary", type: :feature do
   it "shows list of books" do
