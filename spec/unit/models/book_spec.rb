@@ -20,4 +20,22 @@ RSpec.describe Book, type: :model do
       expect(in_stock).to eq(false)
     end
   end
+
+  describe "#borrow" do
+    it "reduces inventory for this book by one" do
+      book = FactoryGirl.build_stubbed(:book)
+      expect(Inventory).to receive(:borrow)
+
+      book.borrow
+    end
+  end
+
+  describe "#current_quantity" do
+    it "returns current quantity of the book" do
+      book = FactoryGirl.build_stubbed(:book)
+      expect(Inventory).to receive(:current_quantity)
+
+      book.current_quantity
+    end
+  end
 end
