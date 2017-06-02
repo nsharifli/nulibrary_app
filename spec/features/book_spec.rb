@@ -27,13 +27,13 @@ describe "Nulibrary", type: :feature do
 
     visit book_path(book_1.id)
 
-    expect(page).to have_selector('#borrow')
+    expect(page).to have_selector('.borrow-button')
   end
 
   it "doesn't have borrow button in book details when user is not logged-in" do
     book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
 
     visit book_path(book_1.id)
-    expect(page).not_to have_selector('#borrow')
+    expect(page).not_to have_selector('.borrow-button')
   end
 end
