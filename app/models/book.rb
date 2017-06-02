@@ -7,4 +7,7 @@ class Book < ApplicationRecord
     Inventory.current_quantity(id)
   end
 
+  def in_stock?
+    current_quantity > 0
+  end
 end
