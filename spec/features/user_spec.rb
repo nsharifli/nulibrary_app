@@ -1,6 +1,4 @@
 require 'rails_helper'
-require_relative '../support/pages/Book_object'
-require_relative '../support/pages/User_login_page'
 
 RSpec.describe "User", type: :feature, driver: :selenium do
   it "checks out book through book details page" do
