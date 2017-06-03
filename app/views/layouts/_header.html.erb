@@ -1,0 +1,13 @@
+<div class="ui inverted menu">
+  <%= link_to "Nulibrary", root_path, { class: "header item" } %>
+  <%= link_to "Books", books_path, { class: "item" } %>
+
+  <% if !user_signed_in? %>
+      <%= link_to "Sign in", new_user_session_path, { class: "item" } %>
+      <%= link_to "Sign up", new_user_registration_path, { class: "item" } %>
+  <% end %>
+
+  <% if user_signed_in? %>
+      <%= link_to "Sign out", destroy_user_session_path, { class: "item", method: :delete } %>
+  <% end %>
+</div>
