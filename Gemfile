@@ -40,6 +40,9 @@ gem 'jbuilder', '~> 2.5'
 # Use devise for user authentication
 gem 'devise'
 
+# Use semantic ui for User Interface
+gem 'semantic-ui-sass', '~> 2.2', '>= 2.2.10.1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
