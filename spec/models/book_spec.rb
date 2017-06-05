@@ -42,5 +42,11 @@ RSpec.describe Book, type: :model do
     expect(book_1.errors.full_messages).to include(/Length should be either 10 or 13/)
   end
 
+  it "is not valid if title is nil" do
+    book_1 = FactoryGirl.build(:book, title: nil)
 
+    book_1.valid?
+
+    expect(book_1.errors.full_messages).to include(/can't be blank/)
+  end
 end
