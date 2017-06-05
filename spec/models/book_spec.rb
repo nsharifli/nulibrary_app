@@ -57,6 +57,4 @@ RSpec.describe Book, type: :model do
 
     expect(book_1.errors.full_messages).to include(/can't be blank/)
   end
-
-
 end
