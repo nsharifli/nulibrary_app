@@ -49,4 +49,14 @@ RSpec.describe Book, type: :model do
 
     expect(book_1.errors.full_messages).to include(/can't be blank/)
   end
+
+  it "is not valid if title is blank" do
+    book_1 = FactoryGirl.build(:book, title: "  ")
+
+    book_1.valid?
+
+    expect(book_1.errors.full_messages).to include(/can't be blank/)
+  end
+
+
 end
