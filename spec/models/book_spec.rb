@@ -27,5 +27,11 @@ RSpec.describe Book, type: :model do
     expect(validation).to eq(false)
   end
 
+  it "is not valid if ibn length is not 10 or 13" do
+    validation = FactoryGirl.build(:book, ibn: "123", title: "Book1").valid?
+
+    expect(validation).to eq(false)
+  end
+
 
 end
