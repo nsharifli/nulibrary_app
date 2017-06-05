@@ -1,6 +1,6 @@
 class Book < ApplicationRecord
   # Validation
-  validates :ibn, presence: true
+  validates :ibn, presence: true, uniqueness: true
   def borrow
     Inventory.borrow(id)
   end
