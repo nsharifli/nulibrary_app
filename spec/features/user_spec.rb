@@ -22,4 +22,19 @@ RSpec.describe "User", type: :feature, driver: :selenium do
 
     expect(page).to have_no_selector(".borrow-button")
   end
+
+  it "logs in to library through home page; after user logs in, page redirects to books page" do
+    user_1 = FactoryGirl.create(:user)
+    book_1 = FactoryGirl.create(:book)
+
+    visit root_path
+
+    user_log_in_page = UserLogInPage.new
+    user_log_in_page.fill_in_email(user_1.email)
+    user_log_in_page.fill_in_password(user_1.password)
+    user_log_in_page.click_button("Log in")
+    sleep(10)
+
+    expect(current_path).to eq(books_path)
+  end
 end
