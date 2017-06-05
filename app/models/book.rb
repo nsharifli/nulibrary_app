@@ -1,4 +1,16 @@
 class Book < ApplicationRecord
+  # Validation
+  validates :ibn, presence: true, uniqueness: true
+  validate :ibn_valid_length
+  validates :title, presence: true
+
+  def ibn_valid_length
+    length = ibn.try(:length)
+    if length != 10 && length != 13
+      errors.add(:ibn, "Length should be either 10 or 13")
+    end
+  end
+
   def borrow
     Inventory.borrow(id)
   end

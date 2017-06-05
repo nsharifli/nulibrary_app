@@ -4,7 +4,7 @@ FactoryGirl.define do
     current_quantity 1
   end
   factory :book do
-    ibn "MyString"
+    ibn "0123456789"
     title "MyString"
 
     after(:create) do |book|
