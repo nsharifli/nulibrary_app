@@ -1,11 +1,10 @@
 class Book < ApplicationRecord
   # Validation
   validates :ibn, presence: true, uniqueness: true
-  validate :ibn_valid_length
+  validate :ibn_valid_length, unless: Proc.new {|book| book.ibn.nil?}
 
   def ibn_valid_length
-
-    if ibn.nil? || (ibn.length != 10 && ibn.length != 13)
+    if ibn.length != 10 && ibn.length != 13
       errors.add(:ibn, "Length should be either 10 or 13")
     end
   end
