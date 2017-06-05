@@ -33,8 +33,23 @@ RSpec.describe "User", type: :feature, driver: :selenium do
     user_log_in_page.fill_in_email(user_1.email)
     user_log_in_page.fill_in_password(user_1.password)
     user_log_in_page.click_button("Log in")
-    sleep(10)
 
     expect(current_path).to eq(books_path)
+  end
+
+  it "redirects to log in page when logs out" do
+    user_1 = FactoryGirl.create(:user)
+
+    visit root_path
+
+    user_log_in_page = UserLogInPage.new
+    user_log_in_page.fill_in_email(user_1.email)
+    user_log_in_page.fill_in_password(user_1.password)
+    user_log_in_page.click_button("Log in")
+    sleep(2)
+    click_on("Sign out")
+    sleep(2)
+
+    expect(current_path).to eq(new_user_session_path)
   end
 end
