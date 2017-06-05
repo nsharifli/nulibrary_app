@@ -19,5 +19,13 @@ RSpec.describe Book, type: :model do
     expect(validation).to eq(true)
   end
 
+  it "is not valid if ibn is not unique" do
+    FactoryGirl.create(:book, ibn: "123", title: "Book1")
+
+    validation = FactoryGirl.build(:book, ibn: "123", title: "Book2").valid?
+
+    expect(validation).to eq(false)
+  end
+
 
 end
