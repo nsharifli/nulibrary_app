@@ -1,5 +1,6 @@
 class Inventory < ApplicationRecord
   belongs_to :book
+  validates :total_quantity, presence: true
 
   def self.borrow(book_id)
     inventory = Inventory.find_by(book_id: book_id)
