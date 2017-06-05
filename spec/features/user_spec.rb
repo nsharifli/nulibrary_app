@@ -39,4 +39,20 @@ RSpec.describe "User", type: :feature, driver: :selenium do
 
     expect(current_path).to eq(new_user_session_path)
   end
+
+  it "redirects home page to log in page if user is not logged in" do
+    visit root_path
+
+    expect(current_path).to eq(new_user_session_path)
+  end
+
+  it "redirects home page to books page if user is logged in" do
+    user_1 = FactoryGirl.create(:user)
+
+    visit root_path
+    log_in_user(user_1)
+    visit root_path
+
+    expect(current_path).to eq(books_path)
+  end
 end
