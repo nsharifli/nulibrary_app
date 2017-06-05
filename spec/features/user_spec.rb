@@ -4,7 +4,7 @@ RSpec.describe "User", type: :feature, driver: :selenium do
   it "checks out book through book details page" do
     book_1 = FactoryGirl.create(:book)
     book_2 = FactoryGirl.create(:book, ibn: '9876543210')
-    user_1 = FactoryGirl.create(:user, email: "foo@bar.com")
+    user_1 = FactoryGirl.create(:user)
     Inventory.find_by(book_id: book_2.id).update_attributes(current_quantity: 0)
 
     visit user_session_path

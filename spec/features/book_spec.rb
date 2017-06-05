@@ -2,12 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "Nulibrary", type: :feature do
   it "shows list of books" do
+    book_1 = FactoryGirl.create(:book)
+
     visit books_path
     expect(page).to have_content 'All books'
+    expect(page).to have_content book_1.title
   end
 
   it "opens book details page when clicked at book" do
-    book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
+    book_1 = FactoryGirl.create(:book, title: "Book1")
 
     visit books_path
 
@@ -16,21 +19,18 @@ RSpec.describe "Nulibrary", type: :feature do
   end
 
   it "has borrow button in book details when user is logged-in and inventory is greater than zero" do
-    book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
-    user_1 = FactoryGirl.create(:user, email: "foo@bar.com")
+    book_1 = FactoryGirl.create(:book)
+    user_1 = FactoryGirl.create(:user)
 
     visit user_session_path
-    fill_in('Email', :with => user_1.email)
-    fill_in('Password', :with => user_1.password)
-    click_button("Log in")
-
+    log_in_user(user_1)
     visit book_path(book_1.id)
 
     expect(page).to have_selector('.borrow-button')
   end
 
   it "doesn't have borrow button in book details when user is not logged-in" do
-    book_1 = FactoryGirl.create(:book, ibn: "1", title: "Book1")
+    book_1 = FactoryGirl.create(:book)
 
     visit book_path(book_1.id)
     expect(page).not_to have_selector('.borrow-button')
