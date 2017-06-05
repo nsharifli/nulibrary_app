@@ -43,5 +43,23 @@ RSpec.describe Inventory, type: :model do
 
       expect(inventory_1.errors.full_messages).to include(/must be greater than or equal to 0/)
     end
+
+    it "is not valid if current_quantity is nil" do
+      book_1 = FactoryGirl.create(:book)
+      inventory_1 = FactoryGirl.build(:inventory, current_quantity: nil, book: book_1)
+
+      inventory_1.valid?
+
+      expect(inventory_1.errors.full_messages).to include(/can't be blank/)
+    end
+
+    it "is not valid if current_quantity is less than zero" do
+      book_1 = FactoryGirl.create(:book)
+      inventory_1 = FactoryGirl.build(:inventory, current_quantity: -2, book: book_1)
+
+      inventory_1.valid?
+
+      expect(inventory_1.errors.full_messages).to include(/must be greater than or equal to 0/)
+    end
   end
 end
