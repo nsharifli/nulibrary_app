@@ -24,4 +24,15 @@ RSpec.describe Inventory, type: :model do
       expect(Inventory.current_quantity(book_1.id)).to eq(0)
     end
   end
+
+  describe "validation" do
+    it "is not valid if total_quantity is nil" do
+      book_1 = FactoryGirl.create(:book)
+      inventory_1 = FactoryGirl.build(:inventory, total_quantity: nil, book: book_1)
+
+      inventory_1.valid?
+
+      expect(inventory_1.errors.full_messages).to include(/can't be blank/)
+    end
+  end
 end
