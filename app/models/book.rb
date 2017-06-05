@@ -2,6 +2,7 @@ class Book < ApplicationRecord
   # Validation
   validates :ibn, presence: true, uniqueness: true
   validate :ibn_valid_length
+  validates :title, presence: true
 
   def ibn_valid_length
     length = ibn.try(:length)
