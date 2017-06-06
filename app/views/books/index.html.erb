@@ -1,7 +1,9 @@
-<h1>All books</h1>
+<div class="ui container main">
+  <h1>All books</h1>
 
-<ul>
-  <% @books.each do |book| %>
-      <li><a href=<%= book_path(book.id) %>><%= book.title %></a></li>
-  <% end %>
-</ul>
+  <ul class="ui relaxed list">
+    <% @books.each do |book| %>
+        <li class="item"><a href=<%= book_path(book.id) %>><%= book.title %></a></li>
+    <% end %>
+  </ul>
+</div>
