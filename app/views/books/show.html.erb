@@ -1,6 +1,6 @@
 <h1><%= @book.title %></h1>
 <h3>Total quantity</h3>
-<%= Inventory.find_by(book_id: @book.id).total_quantity %>
+<%= @book.total_quantity %>
 <h3>Current quantity</h3>
 <%= @book.current_quantity %>
 <% if borrow_allow?(@book) %>
