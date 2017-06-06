@@ -7,5 +7,5 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 FactoryGirl.create(:user, email: 'test@test.com', password: 'password')
-book_1 = FactoryGirl.create(:book, title: 'New Book', ibn: '12345')
-FactoryGirl.create(:inventory, total_quantity: 10, current_quantity: 4, book: book_1)
+FactoryGirl.create(:book, title: 'Crime and Punishment')
+FactoryGirl.create(:book, title: 'Foundation')
