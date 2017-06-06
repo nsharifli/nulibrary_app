@@ -38,4 +38,14 @@ RSpec.describe Book, type: :model do
       book.current_quantity
     end
   end
+
+  describe "#total_quantity" do
+    it "returns total quantity of the book" do
+      book = FactoryGirl.build_stubbed(:book)
+
+      expect(Inventory).to receive(:total_quantity)
+
+      book.total_quantity
+    end
+  end
 end
