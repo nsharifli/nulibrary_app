@@ -28,6 +28,13 @@ RSpec.describe Book, type: :model do
 
       book.borrow
     end
+
+    it "adds new entry to transactions table" do
+      book = FactoryGirl.build_stubbed(:book)
+      expect(Transaction).to receive(:add_borrow_entry)
+
+      book.borrow
+    end
   end
 
   describe "#current_quantity" do
