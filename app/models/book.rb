@@ -1,8 +1,10 @@
 class Book < ApplicationRecord
+  has_one :inventory
   # Validation
   validates :ibn, presence: true, uniqueness: true
   validate :ibn_valid_length
   validates :title, presence: true
+  validates_presence_of :inventory
 
   def ibn_valid_length
     length = ibn.try(:length)
