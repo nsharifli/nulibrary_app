@@ -25,6 +25,14 @@ RSpec.describe Inventory, type: :model do
     end
   end
 
+  describe "#total_quantity" do
+    it "returns total quantity of a book in inventory" do
+      book_1 = FactoryGirl.create(:book)
+
+      expect(Inventory.total_quantity(book_1.id).to eq(1))
+    end
+  end
+
   describe "validation" do
     it "is not valid if total_quantity is nil" do
       book_1 = FactoryGirl.create(:book)
