@@ -4,11 +4,11 @@ FactoryGirl.define do
     current_quantity 1
   end
   factory :book do
-    ibn "0123456789"
+    sequence(:ibn) { |n| "%010d" % n }
     title "MyString"
 
-    after(:create) do |book|
-      create :inventory, book: book
+    after(:build) do |book|
+      book.inventory = build(:inventory, book: book)
     end
   end
   factory :user do

@@ -57,4 +57,15 @@ RSpec.describe Book, type: :model do
 
     expect(book_1.errors.full_messages).to include(/can't be blank/)
   end
+
+  describe "associations" do
+    it "is not valid when inventory is not present" do
+      book_1 = FactoryGirl.build(:book)
+      book_1.inventory = nil
+
+      book_1.valid?
+
+      expect(book_1.errors.full_messages).to include(/can't be blank/)
+    end
+  end
 end

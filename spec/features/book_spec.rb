@@ -35,4 +35,13 @@ RSpec.describe "Nulibrary", type: :feature do
     visit book_path(book_1.id)
     expect(page).not_to have_selector('.borrow-button')
   end
+
+  it "has total quantity and current quantity information in book details" do
+    book_1 = FactoryGirl.create(:book)
+
+    visit book_path(book_1.id)
+
+    expect(page).to have_content("Total quantity")
+    expect(page).to have_content("Current quantity")
+  end
 end
