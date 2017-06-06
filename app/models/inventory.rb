@@ -11,11 +11,11 @@ class Inventory < ApplicationRecord
 
   def self.current_quantity(book_id)
     inventory = Inventory.find_by(book_id: book_id)
-    inventory.present? ? inventory.current_quantity : 0
+    inventory.current_quantity
   end
 
   def self.total_quantity(book_id)
     inventory = Inventory.find_by(book_id: book_id)
-    inventory.present? ? inventory.total_quantity : 0
+    inventory.total_quantity
   end
 end

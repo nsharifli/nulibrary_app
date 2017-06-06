@@ -11,17 +11,10 @@ RSpec.describe Inventory, type: :model do
   end
 
   describe "#current quantity" do
-    it "returns current quantity when the book is in inventory" do
+    it "returns current quantity" do
       book_1 = FactoryGirl.create(:book)
 
       expect(Inventory.current_quantity(book_1.id)).to eq(1)
-    end
-
-    it "returns zero when the book is not in inventory" do
-      book_1 = FactoryGirl.create(:book)
-      Inventory.find_by(book_id: book_1.id).update_attributes(current_quantity: 0)
-
-      expect(Inventory.current_quantity(book_1.id)).to eq(0)
     end
   end
 
