@@ -1,5 +1,6 @@
 class Book < ApplicationRecord
   has_one :inventory
+  has_many :transactions
   # Validation
   validates :ibn, presence: true, uniqueness: true
   validate :ibn_valid_length
