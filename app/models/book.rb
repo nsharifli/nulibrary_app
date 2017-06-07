@@ -14,13 +14,13 @@ class Book < ApplicationRecord
     end
   end
 
-  def borrow(user_id)
+  def borrow(user)
     Inventory.borrow(id)
-    add_borrow_entry(user_id)
+    add_borrow_entry(user)
   end
 
-  def add_borrow_entry(user_id)
-    Transaction.add_borrow_entry(user_id,id)
+  def add_borrow_entry(user)
+    Transaction.add_borrow_entry(user,id)
   end
 
   def current_quantity

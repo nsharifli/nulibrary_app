@@ -5,7 +5,7 @@ RSpec.describe Transaction, type: :model do
     book_1 = FactoryGirl.create(:book)
     user_1 = FactoryGirl.create(:user)
 
-    Transaction.add_borrow_entry(user_1, book_1)
+    Transaction.add_borrow_entry(user_1, book_1.id)
 
     result = Transaction.find_by(user: user_1, book: book_1)
 

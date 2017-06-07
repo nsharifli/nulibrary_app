@@ -24,9 +24,10 @@ RSpec.describe Book, type: :model do
   describe "#borrow" do
     it "reduces inventory for this book by one" do
       book = FactoryGirl.build_stubbed(:book)
+      user = FactoryGirl.build_stubbed(:user)
       expect(Inventory).to receive(:borrow)
 
-      book.borrow
+      book.borrow(user)
     end
 
     it "adds new entry to transactions table" do
