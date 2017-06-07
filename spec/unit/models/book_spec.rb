@@ -33,9 +33,11 @@ RSpec.describe Book, type: :model do
     it "adds new entry to transactions table" do
       book = FactoryGirl.build_stubbed(:book)
       user = FactoryGirl.build_stubbed(:user)
+      allow(Inventory).to receive(:borrow).and_return(true)
+
       expect(Transaction).to receive(:add_borrow_entry)
 
-      book.add_borrow_entry(user.id)
+      book.borrow(user)
     end
   end
 

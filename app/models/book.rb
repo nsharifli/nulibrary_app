@@ -19,10 +19,6 @@ class Book < ApplicationRecord
     add_borrow_entry(user)
   end
 
-  def add_borrow_entry(user)
-    Transaction.add_borrow_entry(user,id)
-  end
-
   def current_quantity
     Inventory.current_quantity(id)
   end
@@ -33,5 +29,11 @@ class Book < ApplicationRecord
 
   def in_stock?
     current_quantity > 0
+  end
+
+  private
+
+  def add_borrow_entry(user)
+    Transaction.add_borrow_entry(user,id)
   end
 end
