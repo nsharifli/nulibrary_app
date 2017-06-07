@@ -1,5 +1,6 @@
 class Book < ApplicationRecord
   has_one :inventory
+  has_many :transactions
   # Validation
   validates :ibn, presence: true, uniqueness: true
   validate :ibn_valid_length
@@ -13,8 +14,9 @@ class Book < ApplicationRecord
     end
   end
 
-  def borrow
+  def borrow(user)
     Inventory.borrow(id)
+    add_borrow_entry(user)
   end
 
   def current_quantity
@@ -27,5 +29,11 @@ class Book < ApplicationRecord
 
   def in_stock?
     current_quantity > 0
+  end
+
+  private
+
+  def add_borrow_entry(user)
+    Transaction.add_borrow_entry(user,id)
   end
 end
