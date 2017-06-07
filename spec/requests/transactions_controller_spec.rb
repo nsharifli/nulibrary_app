@@ -15,12 +15,10 @@ RSpec.describe TransactionsController, type: :request do
       expect(response.body).to include("Return")
     end
 
-    it "index page responds with 403 if user is not signed in" do
+    it "index page redirects to log in page if user is not signed in" do
       get transactions_path
 
-      expect(response.status).to eq(403)
+      expect(response).to redirect_to (new_user_session_path)
     end
   end
-
-
 end
