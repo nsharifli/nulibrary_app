@@ -8,6 +8,7 @@
   <% end %>
 
   <% if user_signed_in? %>
+      <%= link_to "Transactions", transactions_path, { class: "item"} %>
       <%= link_to "Sign out", destroy_user_session_path, { class: "item", method: :delete } %>
   <% end %>
 </div>
