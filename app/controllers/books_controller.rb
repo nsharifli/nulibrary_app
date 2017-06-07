@@ -8,7 +8,7 @@ class BooksController < ApplicationController
   end
 
   def borrow
-    Book.find(params[:id]).borrow
+    Book.find(params[:id]).borrow(current_user.id)
     flash[:notice] = "Successfully borrowed"
   end
 
