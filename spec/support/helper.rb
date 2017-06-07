@@ -1,5 +1,6 @@
 module HelperMethods
   def log_in_user(user)
+    visit user_session_path
     user_log_in_page = UserLogInPage.new
     user_log_in_page.fill_in_email(user.email)
     user_log_in_page.fill_in_password(user.password)

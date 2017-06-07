@@ -5,7 +5,6 @@ RSpec.describe "Transaction", type: :feature, driver: :selenium do
     book_1 = FactoryGirl.create(:book)
     user_1 = FactoryGirl.create(:user)
 
-    visit user_session_path
     log_in_user(user_1)
     visit book_path(book_1.id)
     click_on("Borrow")
@@ -19,7 +18,6 @@ RSpec.describe "Transaction", type: :feature, driver: :selenium do
     book_1 = FactoryGirl.create(:book)
     user_1 = FactoryGirl.create(:user)
 
-    visit user_session_path
     log_in_user(user_1)
     visit book_path(book_1.id)
     click_on("Borrow")
