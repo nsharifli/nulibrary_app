@@ -9,10 +9,8 @@ RSpec.describe "Transaction", type: :feature, driver: :selenium do
     log_in_user(user_1)
     visit book_path(book_1.id)
     click_on("Borrow")
-    sleep(2)
-
     visit transactions_path
-    sleep(2)
+
     expect(page).to have_content book_1.title
     expect(page).to have_selector ".return-button"
   end

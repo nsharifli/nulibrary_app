@@ -2,6 +2,9 @@
 
 <ul class="ui relaxed list">
   <% @my_transactions.each do |transaction| %>
-      <li class="item">transaction.book_id</a></li>
+      <li class="item">
+        <%= transaction.book.title %>
+        <%= button_to "Return", nil, { class: 'return-button ui button'} %>
+      </li>
   <% end %>
 </ul>

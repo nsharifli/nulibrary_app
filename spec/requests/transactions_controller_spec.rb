@@ -9,7 +9,6 @@ RSpec.describe TransactionsController, type: :request do
 
       sign_in user
 
-
       get transactions_path
 
       expect(response.body).to include(book_1.title)
