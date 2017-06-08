@@ -12,4 +12,10 @@ class BooksController < ApplicationController
     flash[:notice] = "Successfully borrowed"
   end
 
+  def return
+    book = Book.find(params[:id])
+    book.return(current_user)
+    flash[:notice] = "Successfully returned #{book.title}"
+    redirect_to transactions_path
+  end
 end

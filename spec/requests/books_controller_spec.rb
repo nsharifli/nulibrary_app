@@ -33,4 +33,19 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include "Successfully borrowed"
     end
   end
+
+  describe "PUT books#return" do
+    it "returns a book" do
+      book_1 = FactoryGirl.create(:book, title: "Book1")
+      user_1 = FactoryGirl.create(:user, email: "example@gmail.com")
+      FactoryGirl.create(:transaction, :unreturned, user: user_1, book: book_1)
+      sign_in user_1
+
+      put return_book_path(book_1.id)
+
+      expect(response).to redirect_to(transactions_path)
+      follow_redirect!
+      expect(response.body).to include "Successfully returned #{book_1.title}"
+    end
+  end
 end

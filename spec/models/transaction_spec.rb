@@ -11,4 +11,15 @@ RSpec.describe Transaction, type: :model do
 
     expect(result.borrowed_at).not_to eq(nil)
   end
+
+  it "updates book entry after book is returned" do
+    book_1 = FactoryGirl.create(:book)
+    user_1 = FactoryGirl.create(:user)
+    transaction_1 = FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_1)
+
+    Transaction.update_book_transaction(user_1, book_1.id)
+    transaction_1.reload
+
+    expect(transaction_1.returned_at).not_to eq(nil)
+  end
 end

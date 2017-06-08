@@ -31,9 +31,18 @@ class Book < ApplicationRecord
     current_quantity > 0
   end
 
+  def return(user)
+    Inventory.return(id)
+    update_book_transaction(user)
+  end
+
   private
 
   def add_borrow_entry(user)
     Transaction.add_borrow_entry(user,id)
+  end
+
+  def update_book_transaction(user)
+    Transaction.update_book_transaction(user, id)
   end
 end

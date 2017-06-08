@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   resources :books do
     member do
-      post 'borrow'
+      post :borrow
+      put :return
     end
   end
   resources :transactions

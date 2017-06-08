@@ -1,6 +1,6 @@
 <div class="ui container main">
   <h1>Transaction History</h1>
-  <table class="ui basic table">
+  <table class="ui basic table" id="transactions-table">
     <thead>
     <tr>
       <th>Borrowed books</th>
@@ -10,11 +10,13 @@
     </thead>
     <tbody>
     <% @my_transactions.each do |transaction| %>
-      <tr>
-        <td><%= transaction.book.title %></td>
-        <td><%= transaction.borrowed_at %></td>
-        <td><%= button_to "Return", nil, { class: 'return-button ui button'} %></td>
-      </tr>
+      <% if transaction.returned_at.nil? %>
+        <tr>
+          <td><%= transaction.book.title %></td>
+          <td><%= transaction.borrowed_at %></td>
+          <td><%= button_to "Return",return_book_path(transaction.book.id), { class: 'return-button ui button', method: :put} %></td>
+        </tr>
+      <% end %>
     <% end %>
     </tbody>
   </table>

@@ -63,4 +63,16 @@ RSpec.describe Inventory, type: :model do
       expect(inventory_1.errors.full_messages).to include(/must be greater than or equal to 0/)
     end
   end
+
+  describe "#return" do
+    it "is increased by one when a book is returned" do
+      book_1 = FactoryGirl.create(:book)
+      inventory_1 = Inventory.find_by(book_id: book_1.id)
+      inventory_1.current_quantity = 0
+
+      expect do
+        Inventory.return(book_1.id)
+      end.to change { inventory_1.reload.current_quantity }.by(1)
+    end
+  end
 end
