@@ -59,4 +59,15 @@ RSpec.describe Book, type: :model do
       book.total_quantity
     end
   end
+
+  describe "#return" do
+    it "increases inventory for this book by one" do
+      book = FactoryGirl.build_stubbed(:book)
+      user = FactoryGirl.build_stubbed(:user)
+
+      expect(Inventory).to receive(:return)
+
+      book.return(user)
+    end
+  end
 end
