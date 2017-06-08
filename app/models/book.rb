@@ -31,6 +31,10 @@ class Book < ApplicationRecord
     current_quantity > 0
   end
 
+  def return(user)
+
+  end
+
   private
 
   def add_borrow_entry(user)
