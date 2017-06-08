@@ -18,4 +18,8 @@ class Inventory < ApplicationRecord
     inventory = Inventory.find_by(book_id: book_id)
     inventory.total_quantity
   end
+
+  def self.return(book_id)
+
+  end
 end

@@ -32,7 +32,7 @@ class Book < ApplicationRecord
   end
 
   def return(user)
-
+    Inventory.return(id)
   end
 
   private
