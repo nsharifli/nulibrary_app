@@ -64,6 +64,7 @@ RSpec.describe Book, type: :model do
     it "increases inventory for this book by one" do
       book = FactoryGirl.build_stubbed(:book)
       user = FactoryGirl.build_stubbed(:user)
+      allow(Transaction).to receive(:update_book_transaction).and_return(true)
 
       expect(Inventory).to receive(:return)
 

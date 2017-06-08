@@ -10,11 +10,13 @@
     </thead>
     <tbody>
     <% @my_transactions.each do |transaction| %>
-      <tr>
-        <td><%= transaction.book.title %></td>
-        <td><%= transaction.borrowed_at %></td>
-        <td><%= button_to "Return",transactions_path, { class: 'return-button ui button', method: :get} %></td>
-      </tr>
+      <% if transaction.returned_at.nil? %>
+        <tr>
+          <td><%= transaction.book.title %></td>
+          <td><%= transaction.borrowed_at %></td>
+          <td><%= button_to "Return",return_book_path(transaction.book.id), { class: 'return-button ui button', method: :put} %></td>
+        </tr>
+      <% end %>
     <% end %>
     </tbody>
   </table>
