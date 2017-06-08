@@ -1,33 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe BooksController, type: :request do
+  let!(:book_1) { FactoryGirl.create(:book)}
+  let!(:book_2) { FactoryGirl.create(:book)}
+
   describe "GET books#index" do
     it "index page returns list of books" do
-      FactoryGirl.create(:book, title: "Book1")
-      FactoryGirl.create(:book, title: "Book2")
-
       get books_path
 
-      expect(response.body).to include('Book1')
-      expect(response.body).to include('Book2')
+      expect(response.body).to include(book_1.title)
+      expect(response.body).to include(book_2.title)
     end
   end
 
   describe "GET books#show" do
     it "show page returns details of book" do
-      book_1 = FactoryGirl.create(:book, title: "Book1")
-
       get book_path(book_1.id)
 
-      expect(response.body).to include('Book1')
+      expect(response.body).to include(book_1.title)
     end
   end
 
   describe "GET books#borrow" do
     it "borrows a book" do
-      book_1 = FactoryGirl.create(:book, title: "Book1")
-      FactoryGirl.create(:user, email: "example@gmail.com")
-
       post borrow_book_path(book_1.id)
 
       expect(response.body).to include "Successfully borrowed"
@@ -36,7 +31,6 @@ RSpec.describe BooksController, type: :request do
 
   describe "PUT books#return" do
     it "returns a book" do
-      book_1 = FactoryGirl.create(:book, title: "Book1")
       user_1 = FactoryGirl.create(:user, email: "example@gmail.com")
       FactoryGirl.create(:transaction, :unreturned, user: user_1, book: book_1)
       sign_in user_1
