@@ -69,5 +69,15 @@ RSpec.describe Book, type: :model do
 
       book.return(user)
     end
+
+    it "updates corresponding entry in transactions table" do
+      book = FactoryGirl.build_stubbed(:book)
+      user = FactoryGirl.build_stubbed(:user)
+      allow(Inventory).to receive(:return).and_return(true)
+
+      expect(Transaction).to receive(:update_book_transaction)
+
+      book.return(user)
+    end
   end
 end
