@@ -9,7 +9,6 @@ RSpec.describe "Transaction", type: :feature, driver: :selenium do
   end
 
   it "shows list of checked-out books when user logged in" do
-
     visit book_path(book_1.id)
     click_on("Borrow")
     click_on("Transactions")
