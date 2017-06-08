@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
-  it "adds borrow entry to transactions table" do
-    book_1 = FactoryGirl.create(:book)
-    user_1 = FactoryGirl.create(:user)
+  let (:book_1) { FactoryGirl.create(:book) }
+  let (:user_1) { FactoryGirl.create(:user) }
 
+  it "adds borrow entry to transactions table" do
     Transaction.add_borrow_entry(user_1, book_1.id)
 
     result = Transaction.find_by(user: user_1, book: book_1)
@@ -13,8 +13,6 @@ RSpec.describe Transaction, type: :model do
   end
 
   it "updates book entry after book is returned" do
-    book_1 = FactoryGirl.create(:book)
-    user_1 = FactoryGirl.create(:user)
     transaction_1 = FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_1)
 
     Transaction.update_book_transaction(user_1, book_1.id)
