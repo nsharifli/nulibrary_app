@@ -23,4 +23,14 @@ RSpec.describe GoogleBooksAdapter, type: :unit do
 
     expect(result).to eq("Book description")
   end
+
+  it "finds author of a book given an isbn number" do
+    allow(google_books).to receive_message_chain(:first, :authors).and_return("Book author")
+
+    allow(GoogleBooks).to receive(:search).with("isbn:#{isbn}").and_return(google_books)
+
+    result = GoogleBooksAdapter.find_author(isbn)
+
+    expect(result).to eq("Book author")
+  end
 end
