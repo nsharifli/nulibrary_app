@@ -24,6 +24,22 @@ RSpec.describe "Transaction", type: :feature, driver: :selenium do
     click_on("Return")
 
     expect(page).to have_content "Successfully returned #{book_1.title}"
-    expect(page).not_to have_selector(".transactions-table", text: book_1.title)
+    expect(page).not_to have_selector("#transactions-table", text: book_1.title)
+  end
+
+  it "borrows the same book second time and returns it" do
+    visit book_path(book_1.id)
+    click_on("Borrow")
+    click_on("Transactions")
+    click_on("Return")
+
+    visit book_path(book_1.id)
+    click_on("Borrow")
+    click_on("Transactions")
+    click_on("Return")
+
+
+    expect(page).to have_content "Successfully returned #{book_1.title}"
+    expect(page).not_to have_selector("#transactions-table", text: book_1.title)
   end
 end
