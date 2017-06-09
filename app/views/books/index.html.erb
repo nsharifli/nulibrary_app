@@ -1,9 +1,12 @@
 <div class="ui container main">
   <h1>All books</h1>
-
   <ul class="ui relaxed list">
     <% @books.each do |book| %>
         <li class="item"><a href=<%= book_path(book.id) %>><%= book.title %></a></li>
     <% end %>
   </ul>
+
+  <% if current_user.admin? %>
+      <%= link_to("Add a book", new_book_path) %>
+  <% end %>
 </div>
