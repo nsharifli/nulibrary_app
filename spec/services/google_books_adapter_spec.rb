@@ -33,4 +33,15 @@ RSpec.describe GoogleBooksAdapter, type: :unit do
 
     expect(result).to eq("Book author")
   end
+
+
+  it "finds image link of a book given an isbn number" do
+    allow(google_books).to receive_message_chain(:first, :image_link).and_return("Image link")
+
+    allow(GoogleBooks).to receive(:search).with("isbn:#{isbn}").and_return(google_books)
+
+    result = GoogleBooksAdapter.find_image_link(isbn)
+
+    expect(result).to eq("Image link")
+  end
 end
