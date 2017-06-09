@@ -20,6 +20,21 @@ class BooksController < ApplicationController
   end
 
   def new
-    @book = Book.new
+    @book = Book.new(ibn: "123456785")
+
+  end
+
+  def create
+
+  end
+
+  private
+
+  def book_params
+    params.require(:book).permit(:ibn)
+  end
+
+  def inventory_params
+    params.require(:inventory).permit(:quantity)
   end
 end
