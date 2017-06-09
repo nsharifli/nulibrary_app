@@ -61,6 +61,7 @@ RSpec.describe BooksController, type: :request do
       admin = FactoryGirl.create(:user, admin: true)
 
       sign_in admin
+      allow(GoogleBooksAdapter).to receive(:find_title).with("1234567854").and_return("Book title")
 
       params = { "book"=>{"ibn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
       post books_path, params: params
@@ -70,4 +71,5 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include("Book title")
     end
   end
+
 end

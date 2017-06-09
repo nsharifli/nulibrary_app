@@ -25,6 +25,10 @@ class BooksController < ApplicationController
   end
 
   def create
+    isbn = book_params[:ibn]
+    title = GoogleBooksAdapter.find_title(isbn)
+    book = Book.new(ibn: isbn, title: title)
+    redirect_to books_path
 
   end
 
