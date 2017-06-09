@@ -18,4 +18,8 @@ class BooksController < ApplicationController
     flash[:notice] = "Successfully returned #{book.title}"
     redirect_to transactions_path
   end
+
+  def new
+
+  end
 end
