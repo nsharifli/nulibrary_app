@@ -1,17 +1,23 @@
 module GoogleBooksAdapter
   def self.find_title(isbn)
-    GoogleBooks.search("isbn:#{isbn}").first.title
+    book(isbn).title
   end
 
   def self.find_description(isbn)
-    GoogleBooks.search("isbn:#{isbn}").first.description
+    book(isbn).description
   end
 
   def self.find_author(isbn)
-    GoogleBooks.search("isbn:#{isbn}").first.authors
+    book(isbn).authors
   end
 
   def self.find_image_link(isbn)
-    GoogleBooks.search("isbn:#{isbn}").first.image_link
+    book(isbn).image_link
   end
+
+  private
+  def self.book(isbn)
+    GoogleBooks.search("isbn:#{isbn}").first
+  end
+
 end
