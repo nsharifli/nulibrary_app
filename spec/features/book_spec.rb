@@ -37,4 +37,24 @@ RSpec.describe "Nulibrary", type: :feature do
     expect(page).to have_content("Total quantity")
     expect(page).to have_content("Current quantity")
   end
+
+  it "adds new book data via IBN and quantity if user is Admin" do
+    admin = FactoryGirl.create(:user, admin: true)
+
+    log_in_user(admin)
+    visit books_path
+    click_on("Add a book")
+    ibn = "0321721330"
+    corresponding_book = GoogleBooks.search("isbn" + ibn).first
+
+    quantity = 2
+
+    fill_in('ISBN', :with => ibn)
+    fill_in('Quantity', :with => 2)
+    click_on("Add")
+
+    expect(page).to have_content "Successfully added"
+    expect(page).to have_current_path(books_path)
+    expect(page).to have_content(corresponding_book.title)
+  end
 end
