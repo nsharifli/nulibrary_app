@@ -49,7 +49,7 @@ RSpec.describe "Nulibrary", type: :feature do
 
     quantity = 2
 
-    fill_in('ISBN', :with => ibn)
+    fill_in('Ibn', :with => ibn)
     fill_in('Quantity', :with => 2)
     click_on("Add")
 

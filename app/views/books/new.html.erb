@@ -1,0 +1,9 @@
+<%= form_for @book do |f| %>
+  <%= f.label :ibn %>
+  <%= f.text_field :ibn %><br />
+    <%= fields_for :inventory do |inventory_fields| %>
+        <%= inventory_fields.label :quantity %>
+        <%= inventory_fields.number_field :quantity %>
+    <% end %>
+  <%= f.submit "Add" %>
+<% end %>
