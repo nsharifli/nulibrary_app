@@ -42,4 +42,32 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include "Successfully returned #{book_1.title}"
     end
   end
+
+  describe "GET books#new" do
+    it "displays a new book form" do
+      admin = FactoryGirl.create(:user, admin: true)
+
+      sign_in admin
+
+      get new_book_path
+
+      expect(response.body).to have_selector("#book_ibn")
+      expect(response.body).to have_selector("#inventory_quantity")
+    end
+  end
+
+  describe "POST books#create" do
+    it "creates a new book and corresponding inventory" do
+      admin = FactoryGirl.create(:user, admin: true)
+
+      sign_in admin
+
+      params = { "book"=>{"ibn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
+      post books_path, params: params
+
+      expect(response).to redirect_to(books_path)
+      follow_redirect!
+      expect(response.body).to include("Book title")
+    end
+  end
 end
