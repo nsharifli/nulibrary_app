@@ -70,6 +70,20 @@ RSpec.describe BooksController, type: :request do
       follow_redirect!
       expect(response.body).to include("Book title")
     end
+
+    it "if book is not found it goes back to new book path" do
+      admin = FactoryGirl.create(:user, admin: true)
+
+      sign_in admin
+      allow(GoogleBooksAdapter).to receive(:find_title).with("1234567854").and_return(nil)
+
+      params = { "book"=>{"ibn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
+      post books_path, params: params
+
+      expect(response).to redirect_to(new_book_path)
+      follow_redirect!
+      expect(response.body).to include("Book is not found")
+    end
   end
 
 end
