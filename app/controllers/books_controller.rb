@@ -27,12 +27,16 @@ class BooksController < ApplicationController
   def create
     isbn = book_params[:ibn]
     title = GoogleBooksAdapter.find_title(isbn)
-    book = Book.new(ibn: isbn, title: title)
-    inventory = Inventory.new(total_quantity: inventory_params[:quantity], current_quantity: inventory_params[:quantity])
-    book.inventory = inventory
-    book.save
-    redirect_to books_path
-
+    if title.nil?
+      flash[:notice] = "Book is not found"
+      redirect_to new_book_path
+    else
+      book = Book.new(ibn: isbn, title: title)
+      inventory = Inventory.new(total_quantity: inventory_params[:quantity], current_quantity: inventory_params[:quantity])
+      book.inventory = inventory
+      book.save
+      redirect_to books_path
+    end
   end
 
   private
