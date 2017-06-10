@@ -20,7 +20,11 @@ class BooksController < ApplicationController
   end
 
   def new
-    @book = Book.new(ibn: "123456785")
+    if current_user.admin?
+      @book = Book.new(ibn: "123456785")
+    else
+      redirect_to root_path
+    end
 
   end
 
