@@ -44,4 +44,15 @@ RSpec.describe GoogleBooksAdapter, type: :unit do
 
     expect(result).to eq("Image link")
   end
+
+  it "returns nil when book is not found" do
+    invalid_isbn = "1234567890"
+    allow(google_books).to receive_message_chain(:first).and_return(nil)
+
+    allow(GoogleBooks).to receive(:search).with("isbn:#{invalid_isbn}").and_return(google_books)
+
+    result = GoogleBooksAdapter.find_title(invalid_isbn)
+
+    expect(result).to eq(nil)
+  end
 end
