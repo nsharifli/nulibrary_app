@@ -54,6 +54,16 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to have_selector("#book_ibn")
       expect(response.body).to have_selector("#inventory_quantity")
     end
+
+    it "redirects to root page if user is not admin" do
+      user = FactoryGirl.create(:user)
+
+      sign_in user
+
+      get new_book_path
+
+      expect(response).to redirect_to root_path
+    end
   end
 
   describe "POST books#create" do
