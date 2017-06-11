@@ -36,6 +36,18 @@ class Book < ApplicationRecord
     update_book_transaction(user)
   end
 
+  def self.create_new_book(isbn, quantity)
+    title = GoogleBooksAdapter.find_title(isbn)
+    if title.nil?
+      return false
+    else
+      book = Book.new(ibn: isbn, title: title)
+      inventory = Inventory.new(total_quantity: quantity, current_quantity: quantity)
+      book.inventory = inventory
+      book.save
+    end
+  end
+
   private
 
   def add_borrow_entry(user)
