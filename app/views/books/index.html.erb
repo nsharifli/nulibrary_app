@@ -6,7 +6,7 @@
     <% end %>
   </ul>
 
-  <% if current_user.admin? %>
+  <% if user_signed_in? && current_user.admin? %>
       <%= link_to("Add a book", new_book_path) %>
   <% end %>
 </div>

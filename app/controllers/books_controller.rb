@@ -39,6 +39,7 @@ class BooksController < ApplicationController
       inventory = Inventory.new(total_quantity: inventory_params[:quantity], current_quantity: inventory_params[:quantity])
       book.inventory = inventory
       book.save
+      flash[:notice] = "Successfully added"
       redirect_to books_path
     end
   end

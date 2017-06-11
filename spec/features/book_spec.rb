@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Nulibrary", type: :feature do
+RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
   let!(:book_1) { FactoryGirl.create(:book) }
   let(:user_1) { FactoryGirl.create(:user) }
 
@@ -45,16 +45,17 @@ RSpec.describe "Nulibrary", type: :feature do
     visit books_path
     click_on("Add a book")
     ibn = "0321721330"
-    corresponding_book = GoogleBooks.search("isbn" + ibn).first
+    allow(GoogleBooksAdapter).to receive(:find_title).with(ibn).and_return("Book title")
+    book_title  = GoogleBooksAdapter.find_title(ibn)
 
     quantity = 2
 
     fill_in('Ibn', :with => ibn)
-    fill_in('Quantity', :with => 2)
+    fill_in('Quantity', :with => quantity)
     click_on("Add")
 
     expect(page).to have_content "Successfully added"
     expect(page).to have_current_path(books_path)
-    expect(page).to have_content(corresponding_book.title)
+    expect(page).to have_content(book_title)
   end
 end
