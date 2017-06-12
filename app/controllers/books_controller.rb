@@ -31,17 +31,22 @@ class BooksController < ApplicationController
   def create
     isbn = book_params[:ibn]
     quantity = inventory_params[:quantity]
-    book = BookFactory.create(isbn: isbn, quantity: quantity)
 
     if quantity.to_i <= 0
       flash[:notice] = "Quantity should be greater than zero"
       redirect_to new_book_path
-    elsif !book
-      flash[:notice] = "Book is not found"
+    elsif Book.exists?(ibn: isbn)
+      flash[:notice] = "Book already exists in library"
       redirect_to new_book_path
     else
-      flash[:notice] = "Successfully added"
-      redirect_to books_path
+      book = BookFactory.create(isbn: isbn, quantity: quantity)
+      if book
+        flash[:notice] = "Successfully added"
+        redirect_to books_path
+      else
+        flash[:notice] = "Book is not found"
+        redirect_to new_book_path
+      end
     end
   end
 
