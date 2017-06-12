@@ -42,4 +42,58 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include "Successfully returned #{book_1.title}"
     end
   end
+
+  describe "GET books#new" do
+    it "displays a new book form" do
+      admin = FactoryGirl.create(:user, admin: true)
+
+      sign_in admin
+
+      get new_book_path
+
+      expect(response.body).to have_selector("#book_ibn")
+      expect(response.body).to have_selector("#inventory_quantity")
+    end
+
+    it "redirects to root page if user is not admin" do
+      user = FactoryGirl.create(:user)
+
+      sign_in user
+
+      get new_book_path
+
+      expect(response).to redirect_to root_path
+    end
+  end
+
+  describe "POST books#create" do
+    it "creates a new book and corresponding inventory" do
+      admin = FactoryGirl.create(:user, admin: true)
+
+      sign_in admin
+      allow(GoogleBooksAdapter).to receive(:find_title).with("1234567854").and_return("Book title")
+
+      params = { "book"=>{"ibn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
+      post books_path, params: params
+
+      expect(response).to redirect_to(books_path)
+      follow_redirect!
+      expect(response.body).to include("Book title")
+    end
+
+    it "if book is not found it goes back to new book path" do
+      admin = FactoryGirl.create(:user, admin: true)
+
+      sign_in admin
+      allow(GoogleBooksAdapter).to receive(:find_title).with("1234567854").and_return(nil)
+
+      params = { "book"=>{"ibn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
+      post books_path, params: params
+
+      expect(response).to redirect_to(new_book_path)
+      follow_redirect!
+      expect(response.body).to include("Book is not found")
+    end
+  end
+
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Nulibrary", type: :feature do
+RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
   let!(:book_1) { FactoryGirl.create(:book) }
   let(:user_1) { FactoryGirl.create(:user) }
 
@@ -36,5 +36,26 @@ RSpec.describe "Nulibrary", type: :feature do
 
     expect(page).to have_content("Total quantity")
     expect(page).to have_content("Current quantity")
+  end
+
+  it "adds new book data via IBN and quantity if user is Admin" do
+    admin = FactoryGirl.create(:user, admin: true)
+
+    log_in_user(admin)
+    visit books_path
+    click_on("Add a book")
+    ibn = "0321721330"
+    allow(GoogleBooksAdapter).to receive(:find_title).with(ibn).and_return("Book title")
+    book_title  = GoogleBooksAdapter.find_title(ibn)
+
+    quantity = 2
+
+    fill_in('Ibn', :with => ibn)
+    fill_in('Quantity', :with => quantity)
+    click_on("Add")
+
+    expect(page).to have_content "Successfully added"
+    expect(page).to have_current_path(books_path)
+    expect(page).to have_content(book_title)
   end
 end

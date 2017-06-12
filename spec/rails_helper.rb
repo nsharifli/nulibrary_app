@@ -94,4 +94,7 @@ RSpec.configure do |config|
 
   # Devise request helper configuration
   config.include RequestSpecHelper, type: :request
+
+  # Allows capybara rspec matchers in request specs
+  config.include Capybara::RSpecMatchers, type: :request
 end

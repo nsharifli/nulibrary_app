@@ -1,0 +1,20 @@
+<div class="ui container main">
+  <h1>Add a new book</h1>
+  <%= form_for @book, html: { class: "ui form" } do |f| %>
+      <div class="field">
+        <%= f.label :ibn %>
+        <%= f.text_field :ibn %>
+      </div>
+
+      <div class="field">
+        <%= fields_for :inventory do |inventory_fields| %>
+            <%= inventory_fields.label :quantity %>
+            <%= inventory_fields.number_field :quantity %>
+        <% end %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Add", class: "ui button" %>
+      </div>
+  <% end %>
+</div>

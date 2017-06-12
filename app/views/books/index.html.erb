@@ -1,9 +1,33 @@
 <div class="ui container main">
   <h1>All books</h1>
+  <table class="ui basic table" id="books-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+      </tr>
+    </thead>
 
-  <ul class="ui relaxed list">
-    <% @books.each do |book| %>
-        <li class="item"><a href=<%= book_path(book.id) %>><%= book.title %></a></li>
-    <% end %>
-  </ul>
+    <tbody>
+      <% @books.each do |book| %>
+        <tr>
+          <td>
+            <h4 class="ui image header">
+              <img src=<%= book.image %> class="ui mini rounded image">
+              <div class="content">
+                <a href=<%= book_path(book.id) %>><%= book.title %></a>
+              </div>
+            </h4>
+          </td>
+          <td>
+            <%= book.author %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if user_signed_in? && current_user.admin? %>
+      <%= link_to("Add a book", new_book_path) %>
+  <% end %>
 </div>
