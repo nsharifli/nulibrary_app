@@ -40,7 +40,7 @@ class Book < ApplicationRecord
     title = GoogleBooksAdapter.find_title(isbn)
     author = GoogleBooksAdapter.find_author(isbn)
     description = GoogleBooksAdapter.find_description(isbn)
-    image = GoogleBooksAdapter.find_image_link(isbn)
+    image = GoogleBooksAdapter.find_image_link(isbn) || "http://via.placeholder.com/350x150"
     if title.nil?
       return false
     else
