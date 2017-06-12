@@ -55,4 +55,15 @@ RSpec.describe GoogleBooksAdapter, type: :unit do
 
     expect(result).to eq(nil)
   end
+
+  it "returns nil when isbn is nil" do
+    nil_isbn = nil
+    allow(google_books).to receive_message_chain(:first).and_return(nil)
+
+    allow(GoogleBooks).to receive(:search).with("isbn:#{nil_isbn}").and_return(google_books)
+
+    result = GoogleBooksAdapter.find_title(nil_isbn)
+
+    expect(result).to eq(nil)
+  end
 end
