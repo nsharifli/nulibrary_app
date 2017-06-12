@@ -42,17 +42,13 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
     admin = FactoryGirl.create(:user, admin: true)
 
     log_in_user(admin)
-    visit books_path
-    click_on("Add a book")
-    ibn = "0321721330"
-    allow(GoogleBooksAdapter).to receive(:find_title).with(ibn).and_return("Book title")
-    book_title  = GoogleBooksAdapter.find_title(ibn)
-
+    visit new_book_path
+    isbn = "0321721330"
     quantity = 2
+    allow(GoogleBooksAdapter).to receive(:find_title).with(isbn).and_return("Foundation")
+    book_title  = GoogleBooksAdapter.find_title(isbn)
 
-    fill_in('Ibn', :with => ibn)
-    fill_in('Quantity', :with => quantity)
-    click_on("Add")
+    add_book(isbn: isbn, quantity: quantity )
 
     expect(page).to have_content "Successfully added"
     expect(page).to have_current_path(books_path)
@@ -63,16 +59,12 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
     admin = FactoryGirl.create(:user, admin: true)
 
     log_in_user(admin)
-    visit books_path
-    click_on("Add a book")
-    ibn = "0321721330"
+    visit new_book_path
+    isbn = "0321721330"
     quantity = 0
-    allow(GoogleBooksAdapter).to receive(:find_title).with(ibn).and_return("Book title")
-    book_title  = GoogleBooksAdapter.find_title(ibn)
+    allow(GoogleBooksAdapter).to receive(:find_title).with(isbn).and_return("Book title")
 
-    fill_in('Ibn', :with => ibn)
-    fill_in('Quantity', :with => quantity)
-    click_on("Add")
+    add_book(isbn: isbn, quantity: quantity)
 
     expect(page).to have_content "Quantity should be greater than zero"
     expect(page).to have_current_path(new_book_path)
@@ -82,15 +74,12 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
     admin = FactoryGirl.create(:user, admin: true)
 
     log_in_user(admin)
-    visit books_path
-    click_on("Add a book")
-    ibn = "0321721330"
+    visit new_book_path
+    isbn = "0321721330"
     quantity = -2
-    allow(GoogleBooksAdapter).to receive(:find_title).with(ibn).and_return("Book title")
+    allow(GoogleBooksAdapter).to receive(:find_title).with(isbn).and_return("Book title")
 
-    fill_in('Ibn', :with => ibn)
-    fill_in('Quantity', :with => quantity)
-    click_on("Add")
+    add_book(isbn: isbn, quantity: quantity)
 
     expect(page).to have_content "Quantity should be greater than zero"
     expect(page).to have_current_path(new_book_path)
@@ -100,20 +89,14 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
     admin = FactoryGirl.create(:user, admin: true)
 
     log_in_user(admin)
-    visit books_path
-    click_on("Add a book")
-    ibn = "0321721330"
-    quantity = 2
-    allow(GoogleBooksAdapter).to receive(:find_title).with(ibn).and_return("Book title")
-
-    fill_in('Ibn', with: ibn)
-    fill_in('Quantity', with: quantity)
-    click_on("Add")
-
     visit new_book_path
-    fill_in('Ibn', with: ibn)
-    fill_in('Quantity', with: quantity)
-    click_on("Add")
+    isbn = "0321721330"
+    quantity = 2
+    allow(GoogleBooksAdapter).to receive(:find_title).with(isbn).and_return("Book title")
+
+    add_book(isbn: isbn, quantity: quantity)
+    visit new_book_path
+    add_book(isbn: isbn, quantity: quantity)
 
     expect(page).to have_content "Book already exists in library"
     expect(page).to have_current_path(new_book_path)
