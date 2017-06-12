@@ -31,7 +31,7 @@ class BooksController < ApplicationController
   def create
     isbn = book_params[:ibn]
     quantity = inventory_params[:quantity]
-    book = BookFactory.create(isbn, quantity)
+    book = BookFactory.create(isbn: isbn, quantity: quantity)
 
     if book
       flash[:notice] = "Successfully added"
