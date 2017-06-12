@@ -31,6 +31,15 @@ RSpec.describe BookFactory, type: :unit do
 
       expect(result).to eq(true)
     end
+
+    it "returns false if isbn is nil" do
+      isbn = nil
+      allow(GoogleBooksAdapter).to receive(:find_title).with(isbn).and_return(nil)
+
+      result = BookFactory.create(isbn: isbn, quantity: 2)
+
+      expect(result).to eq(false)
+    end
   end
 
 end
