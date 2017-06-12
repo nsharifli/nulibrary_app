@@ -21,7 +21,7 @@ class BooksController < ApplicationController
 
   def new
     if current_user.admin?
-      @book = Book.new(ibn: "123456785")
+      @book = Book.new
     else
       redirect_to root_path
     end
@@ -33,12 +33,15 @@ class BooksController < ApplicationController
     quantity = inventory_params[:quantity]
     book = BookFactory.create(isbn: isbn, quantity: quantity)
 
-    if book
-      flash[:notice] = "Successfully added"
-      redirect_to books_path
-    else
+    if quantity.to_i <= 0
+      flash[:notice] = "Quantity should be greater than zero"
+      redirect_to new_book_path
+    elsif !book
       flash[:notice] = "Book is not found"
       redirect_to new_book_path
+    else
+      flash[:notice] = "Successfully added"
+      redirect_to books_path
     end
   end
 
