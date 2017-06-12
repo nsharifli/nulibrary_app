@@ -5,6 +5,7 @@ class Book < ApplicationRecord
   validates :ibn, presence: true, uniqueness: true
   validate :ibn_valid_length
   validates :title, presence: true
+  validates_associated :inventory
   validates_presence_of :inventory
 
   def ibn_valid_length
