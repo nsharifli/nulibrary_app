@@ -8,5 +8,5 @@
 
 FactoryGirl.create(:user, email: 'test@test.com', password: 'password')
 FactoryGirl.create(:user, email: 'admin@test.com', password: 'password', admin: true)
-FactoryGirl.create(:book, title: 'Crime and Punishment', author: 'Dostoyevski')
-FactoryGirl.create(:book, title: 'Foundation', author: 'Isaac Asimov')
+FactoryGirl.create(:book, title: 'Crime and Punishment', author: 'Dostoyevski', image: "http://via.placeholder.com/350x150", description: "Description")
+FactoryGirl.create(:book, title: 'Foundation', author: 'Isaac Asimov', image: "http://via.placeholder.com/350x150", description: "Description")

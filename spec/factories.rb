@@ -16,7 +16,7 @@ FactoryGirl.define do
     title "MyString"
     author "Author"
     description "Description"
-    image "Image"
+    image "http://via.placeholder.com/350x150"
 
     after(:build) do |book|
       book.inventory = build(:inventory, book: book)
