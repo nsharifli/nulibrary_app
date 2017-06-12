@@ -11,7 +11,7 @@ RSpec.describe BookFactory, type: :unit do
       expect(result).to eq(false)
     end
 
-    it "returns false if quantity is less than zero" do
+    it "returns false if quantity is less than or equal to zero" do
       isbn = "1234567890"
       quantity = -2
       allow(GoogleBooksAdapter).to receive(:find_title).with(isbn).and_return("Book title")
@@ -19,6 +19,17 @@ RSpec.describe BookFactory, type: :unit do
       result = BookFactory.create(isbn: isbn, quantity: quantity)
 
       expect(result).to eq(false)
+    end
+
+    it "returns true if book is found and quantity is greater than zero" do
+      isbn = "3424343434"
+      quantity = 2
+
+      allow(GoogleBooksAdapter).to receive(:find_title).with(isbn).and_return("Book title")
+
+      result = BookFactory.create(isbn: isbn, quantity: quantity)
+
+      expect(result).to eq(true)
     end
   end
 
