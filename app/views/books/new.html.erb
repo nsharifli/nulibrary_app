@@ -1,15 +1,15 @@
 <div class="ui container main">
   <h1>Add a new book</h1>
   <%= form_for @book, html: { class: "ui form" } do |f| %>
-      <div class="field">
+      <div class="required field">
         <%= f.label :ibn %>
-        <%= f.text_field :ibn %>
+        <%= f.text_field :ibn, required: true %>
       </div>
 
-      <div class="field">
+      <div class="required field">
         <%= fields_for :inventory do |inventory_fields| %>
             <%= inventory_fields.label :quantity %>
-            <%= inventory_fields.number_field :quantity %>
+            <%= inventory_fields.number_field :quantity, required: true %>
         <% end %>
       </div>
 
