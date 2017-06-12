@@ -77,4 +77,23 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
     expect(page).to have_content "Quantity should be greater than zero"
     expect(page).to have_current_path(new_book_path)
   end
+
+  it "doesn't add a new book if quantity is less than zero" do
+    admin = FactoryGirl.create(:user, admin: true)
+
+    log_in_user(admin)
+    visit books_path
+    click_on("Add a book")
+    ibn = "0321721330"
+    quantity = -2
+    allow(GoogleBooksAdapter).to receive(:find_title).with(ibn).and_return("Book title")
+    book_title  = GoogleBooksAdapter.find_title(ibn)
+
+    fill_in('Ibn', :with => ibn)
+    fill_in('Quantity', :with => quantity)
+    click_on("Add")
+
+    expect(page).to have_content "Quantity should be greater than zero"
+    expect(page).to have_current_path(new_book_path)
+  end
 end
