@@ -11,7 +11,7 @@ class BooksController < ApplicationController
     Book.find(params[:id]).borrow(current_user)
     flash[:notice] = "Successfully borrowed"
   rescue ActiveRecord::RecordInvalid => invalid
-    flash[:notice] = "You cannot borrow the book, inventory is zero"
+    flash[:notice] = invalid.record.errors.full_messages.join(" ")
   end
 
   def return

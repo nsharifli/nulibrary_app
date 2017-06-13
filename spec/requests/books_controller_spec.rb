@@ -103,7 +103,7 @@ RSpec.describe BooksController, type: :request do
     post borrow_book_path(book_1.id)
     post borrow_book_path(book_1.id)
 
-    expect(response.body).to include("You cannot borrow the book, inventory is zero")
+    expect(response.body).to include("Current quantity must be greater than or equal to 0")
   end
 
 end
