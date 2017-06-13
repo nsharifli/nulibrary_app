@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe BooksController, type: :request do
-  let!(:book_1) { FactoryGirl.create(:book)}
-  let!(:book_2) { FactoryGirl.create(:book)}
+  let(:book_1) { FactoryGirl.create(:book)}
+  let(:book_2) { FactoryGirl.create(:book)}
 
   describe "GET books#index" do
     it "index page returns list of books" do
@@ -27,6 +27,16 @@ RSpec.describe BooksController, type: :request do
 
       expect(response.body).to include "Successfully borrowed"
     end
+
+    it "returns an error message when there is no inventory" do
+      user = FactoryGirl.create(:user)
+
+      sign_in user
+      post borrow_book_path(book_1.id)
+      post borrow_book_path(book_1.id)
+
+      expect(response.body).to include("Current quantity must be greater than or equal to 0")
+    end
   end
 
   describe "PUT books#return" do
@@ -40,6 +50,16 @@ RSpec.describe BooksController, type: :request do
       expect(response).to redirect_to(transactions_path)
       follow_redirect!
       expect(response.body).to include "Successfully returned #{book_1.title}"
+    end
+
+    it "returns a book that is already returned" do
+      user_1 = FactoryGirl.create(:user, email: "example@gmail.com")
+      FactoryGirl.create(:transaction, user: user_1, book: book_1)
+      sign_in user_1
+
+      put return_book_path(book_1.id)
+
+      expect(response.body).to include "Already returned the book"
     end
   end
 
@@ -95,15 +115,4 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include("Book is not found")
     end
   end
-
-  it "returns an error message when borrow is called twice" do
-    user = FactoryGirl.create(:user)
-
-    sign_in user
-    post borrow_book_path(book_1.id)
-    post borrow_book_path(book_1.id)
-
-    expect(response.body).to include("Current quantity must be greater than or equal to 0")
-  end
-
 end
