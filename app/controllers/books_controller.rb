@@ -16,9 +16,13 @@ class BooksController < ApplicationController
 
   def return
     book = Book.find(params[:id])
-    book.return(current_user)
-    flash[:notice] = "Successfully returned #{book.title}"
-    redirect_to transactions_path
+    if book.return(current_user)
+      flash[:notice] = "Successfully returned #{book.title}"
+      redirect_to transactions_path
+    else
+      flash[:notice] = "Already returned the book"
+      redirect_to transactions_path
+    end
   end
 
   def new

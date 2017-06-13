@@ -58,7 +58,8 @@ RSpec.describe BooksController, type: :request do
       sign_in user_1
 
       put return_book_path(book_1.id)
-
+      expect(response).to redirect_to(transactions_path)
+      follow_redirect!
       expect(response.body).to include "Already returned the book"
     end
   end
