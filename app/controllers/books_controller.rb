@@ -8,8 +8,12 @@ class BooksController < ApplicationController
   end
 
   def borrow
-    Book.find(params[:id]).borrow(current_user)
-    flash[:notice] = "Successfully borrowed"
+    begin
+      Book.find(params[:id]).borrow(current_user)
+      flash[:notice] = "Successfully borrowed"
+    rescue ActiveRecord::RecordInvalid => invalid
+      flash[:notice] = "You cannot borrow the book, inventory is zero"
+    end
   end
 
   def return

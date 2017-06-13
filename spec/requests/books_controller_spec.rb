@@ -96,4 +96,14 @@ RSpec.describe BooksController, type: :request do
     end
   end
 
+  it "returns an error message when borrow is called twice" do
+    user = FactoryGirl.create(:user)
+
+    sign_in user
+    post borrow_book_path(book_1.id)
+    post borrow_book_path(book_1.id)
+
+    expect(response.body).to include("You cannot borrow the book, inventory is zero")
+  end
+
 end
