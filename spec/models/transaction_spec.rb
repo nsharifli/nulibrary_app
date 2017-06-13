@@ -20,4 +20,12 @@ RSpec.describe Transaction, type: :model do
 
     expect(transaction_1.returned_at).not_to eq(nil)
   end
+
+  it "doesn't update book entry if book is already returned" do
+    FactoryGirl.create(:transaction, book: book_1, user: user_1)
+
+    result = Transaction.update_book_transaction(user_1, book_1.id)
+
+    expect(result).to eq(false)
+  end
 end

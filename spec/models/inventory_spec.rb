@@ -27,6 +27,7 @@ RSpec.describe Inventory, type: :model do
     it "is increased by one when a book is returned" do
       inventory_1 = Inventory.find_by(book_id: book_1.id)
       inventory_1.current_quantity = 0
+      inventory_1.save
 
       expect do
         Inventory.return(book_1.id)
@@ -36,7 +37,7 @@ RSpec.describe Inventory, type: :model do
 
   describe "validation" do
     it "is not valid if total_quantity is nil" do
-      inventory_1 = FactoryGirl.build(:inventory, total_quantity: nil, book: book_1)
+      inventory_1 = FactoryGirl.build(:inventory, total_quantity: nil, current_quantity: nil, book: book_1)
 
       inventory_1.valid?
 
@@ -65,6 +66,14 @@ RSpec.describe Inventory, type: :model do
       inventory_1.valid?
 
       expect(inventory_1.errors.full_messages).to include(/must be greater than or equal to 0/)
+    end
+
+    it "is not valid if current_quantity is greater than total_quantity" do
+      inventory_1 = FactoryGirl.build(:inventory, total_quantity: 1, current_quantity: 2, book: book_1)
+
+      inventory_1.valid?
+
+      expect(inventory_1.errors.full_messages).to include(/must be less than or equal to #{inventory_1.total_quantity}/)
     end
   end
 end
