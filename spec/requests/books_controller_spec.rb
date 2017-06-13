@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe BooksController, type: :request do
   let(:book_1) { FactoryGirl.create(:book)}
-  let(:book_2) { FactoryGirl.create(:book)}
 
   describe "GET books#index" do
     it "index page returns list of books" do
+      book_2 = FactoryGirl.create(:book)
       get books_path
 
       expect(response.body).to include(book_1.title)
@@ -43,6 +43,8 @@ RSpec.describe BooksController, type: :request do
     it "returns a book" do
       user_1 = FactoryGirl.create(:user, email: "example@gmail.com")
       FactoryGirl.create(:transaction, :unreturned, user: user_1, book: book_1)
+      book_1.inventory.current_quantity = 0
+      book_1.inventory.save
       sign_in user_1
 
       put return_book_path(book_1.id)
