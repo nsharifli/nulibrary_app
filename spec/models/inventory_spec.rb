@@ -66,5 +66,13 @@ RSpec.describe Inventory, type: :model do
 
       expect(inventory_1.errors.full_messages).to include(/must be greater than or equal to 0/)
     end
+
+    it "is not valid if current_quantity is greater than total_quantity" do
+      inventory_1 = FactoryGirl.build(:inventory, total_quantity: 1, current_quantity: 2, book: book_1)
+
+      inventory_1.valid?
+
+      expect(inventory_1.errors.full_messages).to include(/must be less than or equal to #{inventory_1.total_quantity}/)
+    end
   end
 end
