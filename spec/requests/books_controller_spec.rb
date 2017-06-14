@@ -54,7 +54,7 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include "Successfully returned #{book_1.title}"
     end
 
-    it "returns a book that is already returned" do
+    it "provides an error when returning a book that is already returned" do
       user_1 = FactoryGirl.create(:user, email: "example@gmail.com")
       FactoryGirl.create(:transaction, user: user_1, book: book_1)
       sign_in user_1
