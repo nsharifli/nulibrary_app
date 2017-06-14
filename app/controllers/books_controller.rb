@@ -9,9 +9,9 @@ class BooksController < ApplicationController
 
   def borrow
     Book.find(params[:id]).borrow(current_user)
-    flash[:success] = "Successfully borrowed"
+    flash.now[:success] = "Successfully borrowed"
   rescue ActiveRecord::RecordInvalid => invalid
-    flash[:alert] = invalid.record.errors.full_messages.join(" ")
+    flash.now[:alert] = invalid.record.errors.full_messages.join(" ")
   end
 
   def return
