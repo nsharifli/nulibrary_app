@@ -33,10 +33,8 @@ class Book < ApplicationRecord
   end
 
   def return(user)
-    Book.transaction do
-      update_book_transaction(user)
-      Inventory.return(id)
-    end
+    update_book_transaction(user)
+    Inventory.return(id)
   end
 
   private

@@ -26,7 +26,7 @@ RSpec.describe Transaction, type: :model do
 
     expect do
       Transaction.update_book_transaction(user_1, book_1.id)
-    end.to raise_exception
+    end.to raise_exception ActiveRecord::RecordNotFound
   end
 end
 
