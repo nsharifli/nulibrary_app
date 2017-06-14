@@ -9,15 +9,15 @@ class BooksController < ApplicationController
 
   def borrow
     Book.find(params[:id]).borrow(current_user)
-    flash[:notice] = "Successfully borrowed"
+    flash[:success] = "Successfully borrowed"
   rescue ActiveRecord::RecordInvalid => invalid
-    flash[:notice] = invalid.record.errors.full_messages.join(" ")
+    flash[:alert] = invalid.record.errors.full_messages.join(" ")
   end
 
   def return
     book = Book.find(params[:id])
     if book.return(current_user)
-      flash[:notice] = "Successfully returned #{book.title}"
+      flash[:success] = "Successfully returned #{book.title}"
       redirect_to transactions_path
     else
       flash[:notice] = "Already returned the book"
@@ -39,18 +39,18 @@ class BooksController < ApplicationController
     quantity = inventory_params[:quantity]
 
     if quantity.to_i <= 0
-      flash[:notice] = "Quantity should be greater than zero"
+      flash[:alert] = "Quantity should be greater than zero"
       redirect_to new_book_path
     elsif Book.exists?(ibn: isbn)
-      flash[:notice] = "Book already exists in library"
+      flash[:alert] = "Book already exists in library"
       redirect_to new_book_path
     else
       book = BookFactory.create(isbn: isbn, quantity: quantity)
       if book
-        flash[:notice] = "Successfully added"
+        flash[:success] = "Successfully added"
         redirect_to books_path
       else
-        flash[:notice] = "Book is not found"
+        flash[:alert] = "Book is not found"
         redirect_to new_book_path
       end
     end

@@ -32,7 +32,7 @@ RSpec.describe "User", type: :feature do
       visit book_path(book_1.id)
       click_button("Borrow")
 
-      expect(page).to have_selector(".notice", :text => "Successfully borrowed")
+      expect(page).to have_selector(".green", :text => "Successfully borrowed")
 
       visit book_path(book_2.id)
 
