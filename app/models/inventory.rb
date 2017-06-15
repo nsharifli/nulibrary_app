@@ -6,7 +6,7 @@ class Inventory < ApplicationRecord
   def self.borrow(book_id)
     inventory = Inventory.find_by(book_id: book_id)
     inventory.current_quantity -= 1
-    inventory.save!
+    inventory.save
   end
 
   def self.current_quantity(book_id)
