@@ -21,5 +21,14 @@ RSpec.describe BookBorrowService, type: :unit do
 
       expect(result).to eq(false)
     end
+
+    it "doesn't borrow a book from library successfully if book is already returned" do
+      allow(Inventory).to receive(:borrow).with(book.id).and_return(true)
+      allow(Transaction).to receive(:add_borrow_entry).and_return(false)
+
+      result = BookBorrowService.borrow(user: user, book: book)
+
+      expect(result).to eq(false)
+    end
   end
 end
