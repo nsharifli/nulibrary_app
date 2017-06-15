@@ -22,7 +22,15 @@ RSpec.describe BooksController, type: :request do
   end
 
   describe "GET books#borrow" do
-    it "borrows a book" do
+    it "cannot borrow a book if user is not logged in" do
+      post borrow_book_path(book_1.id)
+
+      expect(response.body).to include "Please log in to borrow a book"
+    end
+
+    it "succesfully borrows a book when user is logged in" do
+      user = FactoryGirl.create(:user)
+      sign_in user
       post borrow_book_path(book_1.id)
 
       expect(response.body).to include "Successfully borrowed"
@@ -35,7 +43,7 @@ RSpec.describe BooksController, type: :request do
       post borrow_book_path(book_1.id)
       post borrow_book_path(book_1.id)
 
-      expect(response.body).to include("Current quantity must be greater than or equal to 0")
+      expect(response.body).to include("Book is not available anymore")
     end
   end
 

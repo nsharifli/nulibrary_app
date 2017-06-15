@@ -8,11 +8,30 @@ class BooksController < ApplicationController
   end
 
   def borrow
-    Book.find(params[:id]).borrow(current_user)
-    flash.now[:success] = "Successfully borrowed"
-  rescue ActiveRecord::RecordInvalid => invalid
-    flash.now[:alert] = invalid.record.errors.full_messages.join(" ")
+    if user_signed_in?
+      book = Book.find(params[:id])
+      book_borrowed = false
+
+      Book.transaction do
+        begin
+          book_borrowed = book.borrow(current_user)
+        rescue
+          raise ActiveRecord::Rollback
+        end
+      end
+
+      if book_borrowed
+        flash.now[:success] = "Successfully borrowed"
+      else
+        flash.now[:alert] = "Book is not available anymore"
+      end
+    else
+      flash.now[:alert] = "Please log in to borrow a book"
+    end
+
+
   end
+
 
   def return
     book = Book.find(params[:id])

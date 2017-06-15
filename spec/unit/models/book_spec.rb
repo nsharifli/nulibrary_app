@@ -25,6 +25,7 @@ RSpec.describe Book, type: :model do
   describe "#borrow" do
     it "reduces inventory for this book by one" do
       expect(Inventory).to receive(:borrow)
+      expect(Transaction).to receive(:add_borrow_entry)
 
       book.borrow(user)
     end
