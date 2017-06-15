@@ -33,7 +33,8 @@ class Book < ApplicationRecord
   end
 
   def return(user)
-    update_book_transaction(user) ? Inventory.return(id) : false
+    update_book_transaction(user)
+    Inventory.return(id)
   end
 
   private
