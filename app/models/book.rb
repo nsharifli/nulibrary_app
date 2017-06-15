@@ -15,11 +15,6 @@ class Book < ApplicationRecord
     end
   end
 
-  def borrow(user)
-    Inventory.borrow(id)
-    add_borrow_entry(user)
-  end
-
   def current_quantity
     Inventory.current_quantity(id)
   end
@@ -38,10 +33,6 @@ class Book < ApplicationRecord
   end
 
   private
-
-  def add_borrow_entry(user)
-    Transaction.add_borrow_entry(user,id)
-  end
 
   def update_book_transaction(user)
     Transaction.update_book_transaction(user, id)
