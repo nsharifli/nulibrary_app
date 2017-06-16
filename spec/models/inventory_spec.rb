@@ -3,14 +3,6 @@ require 'rails_helper'
 RSpec.describe Inventory, type: :model do
   let (:book_1) { FactoryGirl.create(:book) }
 
-  describe "#borrow" do
-    it "is reduced by one when a book is borrowed" do
-      expect do
-        Inventory.borrow(book_1.id)
-      end.to change { book_1.inventory.reload.current_quantity }.by(-1)
-    end
-  end
-
   describe "#current quantity" do
     it "returns current quantity" do
       expect(Inventory.current_quantity(book_1.id)).to eq(1)
