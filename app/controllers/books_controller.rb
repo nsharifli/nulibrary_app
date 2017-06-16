@@ -32,15 +32,8 @@ class BooksController < ApplicationController
 
   def return
     book = Book.find(params[:id])
-    book_returned = false
+    book_returned = BookReturnService.return(user: current_user, book: book)
 
-    Book.transaction do
-      begin
-        book_returned = BookReturnService.return(user: current_user, book: book)
-      rescue
-        raise ActiveRecord::Rollback
-      end
-    end
     if book_returned
       flash[:success] = "Successfully returned #{book.title}"
       redirect_to transactions_path
