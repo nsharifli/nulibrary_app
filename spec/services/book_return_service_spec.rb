@@ -1,30 +1,41 @@
 require 'rails_helper'
 
-RSpec.describe BookReturnService, type: :unit do
-  let(:book) { FactoryGirl.build_stubbed(:book) }
-  let(:user) { FactoryGirl.build_stubbed(:user) }
+RSpec.describe BookReturnService do
+  let(:book) { FactoryGirl.create(:book) }
+  let(:user) { FactoryGirl.create(:user) }
   describe "#return" do
     it "returns book successfully if book is borrowed and not returned" do
-      allow(BookReturnService).to receive(:increase_inventory).with(book).and_return(true)
-      allow(BookReturnService).to receive(:update_book_transaction).with(user, book.id).and_return(true)
+      inventory = book.inventory
+      inventory.update_attributes(current_quantity: 0)
+      transaction = FactoryGirl.create(:transaction, :unreturned, book: book, user: user)
 
       result = BookReturnService.return(book: book, user: user)
 
       expect(result).to eq(true)
+      expect(transaction.reload.returned_at).not_to eq(nil)
+      expect(inventory.reload.current_quantity).to eq(1)
     end
 
-    it "doesn't return book successfully if book is already returned" do
-      allow(BookReturnService).to receive(:increase_inventory).with(book).and_raise("ValidationError")
-      allow(BookReturnService).to receive(:update_book_transaction).with(user, book.id).and_return(true)
+    it "doesn't return book successfully if current quantity is equal to total quantity" do
+      transaction = FactoryGirl.create(:transaction, :unreturned, book: book, user: user)
+      inventory = book.inventory
 
-      expect { BookReturnService.return(book: book, user: user) }.to raise_error("ValidationError")
+      BookReturnService.return(book: book, user: user)
+
+      expect(transaction.reload.returned_at).to be_nil
+      expect(inventory.reload.current_quantity).to eq(1)
     end
 
-    it "doesn't return book successfully if book is not borrowed by user" do
-      allow(BookReturnService).to receive(:increase_inventory).with(book).and_return(true)
-      allow(BookReturnService).to receive(:update_book_transaction).with(user, book.id).and_raise("ValidationError")
+    it "doesn't return book successfully if book is already returned by user" do
+      inventory = book.inventory
+      inventory.update_attributes(current_quantity: 0)
+      return_time = Time.zone.parse('2017-06-13T10:00:00-05:00')
+      transaction = FactoryGirl.create(:transaction, book: book, user: user, returned_at: return_time)
 
-      expect { BookReturnService.return(book: book, user: user) }.to raise_error("ValidationError")
+      BookReturnService.return(book: book, user: user)
+
+      expect(inventory.reload.current_quantity).to eq(0)
+      expect(transaction.reload.returned_at).to eq(return_time)
     end
   end
 
