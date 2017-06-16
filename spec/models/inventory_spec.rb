@@ -15,18 +15,6 @@ RSpec.describe Inventory, type: :model do
     end
   end
 
-  describe "#return" do
-    it "is increased by one when a book is returned" do
-      inventory_1 = Inventory.find_by(book_id: book_1.id)
-      inventory_1.current_quantity = 0
-      inventory_1.save
-
-      expect do
-        Inventory.return(book_1.id)
-      end.to change { inventory_1.reload.current_quantity }.by(1)
-    end
-  end
-
   describe "validation" do
     it "is not valid if total_quantity is nil" do
       inventory_1 = FactoryGirl.build(:inventory, total_quantity: nil, current_quantity: nil, book: book_1)
