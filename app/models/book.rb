@@ -27,11 +27,6 @@ class Book < ApplicationRecord
     current_quantity > 0
   end
 
-  def return(user)
-    update_book_transaction(user)
-    Inventory.return(id)
-  end
-
   private
 
   def update_book_transaction(user)

@@ -36,7 +36,7 @@ class BooksController < ApplicationController
 
     Book.transaction do
       begin
-        book_returned = book.return(current_user)
+        book_returned = BookReturnService.return(user: current_user, book: book)
       rescue
         raise ActiveRecord::Rollback
       end

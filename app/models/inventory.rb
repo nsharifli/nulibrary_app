@@ -12,10 +12,4 @@ class Inventory < ApplicationRecord
     inventory = Inventory.find_by(book_id: book_id)
     inventory.total_quantity
   end
-
-  def self.return(book_id)
-    inventory = Inventory.find_by(book_id: book_id)
-    inventory.current_quantity += 1
-    inventory.save!
-  end
 end

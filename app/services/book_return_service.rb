@@ -9,7 +9,7 @@ module BookReturnService
   private
 
   def increase_inventory(book)
-    inventory = Inventory.find_by(book_id: book_id)
+    inventory = Inventory.find_by(book_id: book.id)
     inventory.current_quantity += 1
     inventory.save!
   end
