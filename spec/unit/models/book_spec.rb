@@ -22,23 +22,6 @@ RSpec.describe Book, type: :model do
     end
   end
 
-  describe "#borrow" do
-    it "reduces inventory for this book by one" do
-      expect(Inventory).to receive(:borrow)
-      expect(Transaction).to receive(:add_borrow_entry)
-
-      book.borrow(user)
-    end
-
-    it "adds new entry to transactions table" do
-      allow(Inventory).to receive(:borrow).and_return(true)
-
-      expect(Transaction).to receive(:add_borrow_entry)
-
-      book.borrow(user)
-    end
-  end
-
   describe "#current_quantity" do
     it "returns current quantity of the book" do
       expect(Inventory).to receive(:current_quantity)

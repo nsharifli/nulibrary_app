@@ -14,7 +14,7 @@ class BooksController < ApplicationController
 
       Book.transaction do
         begin
-          book_borrowed = book.borrow(current_user)
+          book_borrowed = BookBorrowService.borrow(user: current_user, book: book)
         rescue
           raise ActiveRecord::Rollback
         end
@@ -28,10 +28,7 @@ class BooksController < ApplicationController
     else
       flash.now[:alert] = "Please log in to borrow a book"
     end
-
-
   end
-
 
   def return
     book = Book.find(params[:id])
