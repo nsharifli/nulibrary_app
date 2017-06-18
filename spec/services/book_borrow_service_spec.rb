@@ -15,10 +15,12 @@ RSpec.describe BookBorrowService do
     end
 
     it "doesn't borrow a book from library successfully if book is not available" do
-      allow(BookBorrowService).to receive(:decrease_inventory).with(book.id).and_raise("ValidationError")
-      allow(BookBorrowService).to receive(:add_borrow_entry).and_return(true)
+      inventory = book.inventory
+      inventory.update_attributes(current_quantity: 0)
+      BookBorrowService.borrow(user: user, book: book)
 
-      expect{ BookBorrowService.borrow(user: user, book: book) }.to raise_error("ValidationError")
+      expect(inventory.reload.current_quantity).to eq(0)
+      expect(Transaction.find_by(user: user, book_id: book.id)).to eq(nil)
     end
 
     it "doesn't borrow a book from library successfully if book is already returned" do
