@@ -22,12 +22,5 @@ RSpec.describe BookBorrowService do
       expect(inventory.reload.current_quantity).to eq(0)
       expect(Transaction.find_by(user: user, book_id: book.id)).to eq(nil)
     end
-
-    it "doesn't borrow a book from library successfully if book is already returned" do
-      allow(BookBorrowService).to receive(:decrease_inventory).with(book.id).and_return(true)
-      allow(BookBorrowService).to receive(:add_borrow_entry).and_raise("ValidationError")
-
-      expect{ BookBorrowService.borrow(user: user, book: book) }.to raise_error("ValidationError")
-    end
   end
 end
