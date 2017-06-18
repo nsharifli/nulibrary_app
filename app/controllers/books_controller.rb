@@ -10,15 +10,7 @@ class BooksController < ApplicationController
   def borrow
     if user_signed_in?
       book = Book.find(params[:id])
-      book_borrowed = false
-
-      Book.transaction do
-        begin
-          book_borrowed = BookBorrowService.borrow(user: current_user, book: book)
-        rescue
-          raise ActiveRecord::Rollback
-        end
-      end
+      book_borrowed = BookBorrowService.borrow(user: current_user, book: book)
 
       if book_borrowed
         flash.now[:success] = "Successfully borrowed"
