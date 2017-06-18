@@ -2,8 +2,14 @@ module BookReturnService
   extend self
 
   def return(book:, user:)
-    increase_inventory(book)
-    update_book_transaction(user, book.id)
+    ActiveRecord::Base.transaction do
+      begin
+        increase_inventory(book)
+        update_book_transaction(user, book.id)
+      rescue
+        raise ActiveRecord::Rollback
+      end
+    end
   end
 
   private

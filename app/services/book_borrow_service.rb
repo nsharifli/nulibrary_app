@@ -1,8 +1,14 @@
 module BookBorrowService
   extend self
   def borrow(user:, book:)
-    decrease_inventory(book.id)
-    add_borrow_entry(user, book.id)
+    ActiveRecord::Base.transaction do
+      begin
+        add_borrow_entry(user, book.id)
+        decrease_inventory(book.id)
+      rescue
+        raise ActiveRecord::Rollback
+      end
+    end
   end
 
   private
