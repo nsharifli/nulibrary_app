@@ -26,7 +26,7 @@ RSpec.describe "User", type: :feature do
 
     it "checks out book through book details page" do
       book_1 = FactoryGirl.create(:book)
-      book_2 = FactoryGirl.create(:book, ibn: '9876543210')
+      book_2 = FactoryGirl.create(:book, isbn: '9876543210')
       book_2.inventory.update_attributes!(current_quantity: 0)
 
       visit book_path(book_1.id)

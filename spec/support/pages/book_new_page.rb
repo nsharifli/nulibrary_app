@@ -4,7 +4,7 @@ class BookNewPage
   include Capybara::DSL
 
   def fill_in_isbn(isbn)
-    fill_in('Ibn', with: isbn)
+    fill_in('Isbn', with: isbn)
   end
 
   def fill_in_quantity(quantity)
