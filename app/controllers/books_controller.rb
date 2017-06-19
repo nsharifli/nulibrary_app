@@ -45,13 +45,13 @@ class BooksController < ApplicationController
   end
 
   def create
-    isbn = book_params[:ibn]
+    isbn = book_params[:isbn]
     quantity = inventory_params[:quantity]
 
     if quantity.to_i <= 0
       flash[:alert] = "Quantity should be greater than zero"
       redirect_to new_book_path
-    elsif Book.exists?(ibn: isbn)
+    elsif Book.exists?(isbn: isbn)
       flash[:alert] = "Book already exists in library"
       redirect_to new_book_path
     else
@@ -69,7 +69,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:ibn)
+    params.require(:book).permit(:isbn)
   end
 
   def inventory_params

@@ -38,7 +38,7 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
     expect(page).to have_content("Current quantity")
   end
 
-  it "adds new book data via IBN and quantity if user is Admin" do
+  it "adds new book data via ISBN and quantity if user is Admin" do
     admin = FactoryGirl.create(:user, admin: true)
 
     log_in_user(admin)

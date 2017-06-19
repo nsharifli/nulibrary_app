@@ -9,7 +9,7 @@ module BookFactory
       author = GoogleBooksAdapter.find_author(isbn)
       description = GoogleBooksAdapter.find_description(isbn)
       image = GoogleBooksAdapter.find_image_link(isbn) || "http://via.placeholder.com/350x150"
-      book = Book.new(ibn: isbn, title: title, author: author, description: description, image: image)
+      book = Book.new(isbn: isbn, title: title, author: author, description: description, image: image)
       inventory = Inventory.new(total_quantity: quantity, current_quantity: quantity)
       book.inventory = inventory
       book.save

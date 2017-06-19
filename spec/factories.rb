@@ -12,7 +12,7 @@ FactoryGirl.define do
     current_quantity 1
   end
   factory :book do
-    sequence(:ibn) { |n| "%010d" % n }
+    sequence(:isbn) { |n| "%010d" % n }
     title "MyString"
     author "Author"
     description "Description"

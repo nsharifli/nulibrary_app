@@ -82,7 +82,7 @@ RSpec.describe BooksController, type: :request do
 
       get new_book_path
 
-      expect(response.body).to have_selector("#book_ibn")
+      expect(response.body).to have_selector("#book_isbn")
       expect(response.body).to have_selector("#inventory_quantity")
     end
 
@@ -104,7 +104,7 @@ RSpec.describe BooksController, type: :request do
       sign_in admin
       allow(GoogleBooksAdapter).to receive(:find_title).with("1234567854").and_return("Book title")
 
-      params = { "book"=>{"ibn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
+      params = { "book"=>{"isbn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
       post books_path, params: params
 
       expect(response).to redirect_to(books_path)
@@ -118,7 +118,7 @@ RSpec.describe BooksController, type: :request do
       sign_in admin
       allow(GoogleBooksAdapter).to receive(:find_title).with("1234567854").and_return(nil)
 
-      params = { "book"=>{"ibn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
+      params = { "book"=>{"isbn"=>"1234567854"}, "inventory"=>{"quantity"=>"2"} }
       post books_path, params: params
 
       expect(response).to redirect_to(new_book_path)

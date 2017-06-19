@@ -2,16 +2,16 @@ class Book < ApplicationRecord
   has_one :inventory
   has_many :transactions
   # Validation
-  validates :ibn, presence: true, uniqueness: true
-  validate :ibn_valid_length
+  validates :isbn, presence: true, uniqueness: true
+  validate :isbn_valid_length
   validates :title, presence: true
   validates_associated :inventory
   validates_presence_of :inventory
 
-  def ibn_valid_length
-    length = ibn.try(:length)
+  def isbn_valid_length
+    length = isbn.try(:length)
     if length != 10 && length != 13
-      errors.add(:ibn, "Length should be either 10 or 13")
+      errors.add(:isbn, "Length should be either 10 or 13")
     end
   end
 

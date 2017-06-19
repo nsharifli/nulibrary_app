@@ -14,7 +14,7 @@ module BookBorrowService
   private
 
   def add_borrow_entry(user, book_id)
-    Transaction.create!(user: user, book_id: book_id, borrowed_at: DateTime.now)
+    Transaction.create!(user: user, book_id: book_id, borrowed_at: Time.zone.now)
   end
 
   def decrease_inventory(book_id)
