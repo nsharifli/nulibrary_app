@@ -7,7 +7,6 @@
         <th>Author</th>
       </tr>
     </thead>
-
     <tbody>
       <% @books.each do |book| %>
         <tr>
@@ -26,6 +25,8 @@
       <% end %>
     </tbody>
   </table>
+  <%= will_paginate %>
+
 
   <% if user_signed_in? && current_user.admin? %>
       <%= link_to("Add a book", new_book_path) %>
