@@ -101,4 +101,24 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
     expect(page).to have_content "Book already exists in library"
     expect(page).to have_current_path(new_book_path)
   end
+
+  it "has 7 pages in pagination when we have 31 books" do
+    30.times { FactoryGirl.create(:book) }
+    number_of_pages = 7
+    number_of_pagination_tabs = number_of_pages + 2
+
+    visit books_path
+
+    expect(page).to have_selector('tfoot .item', count: number_of_pagination_tabs)
+  end
+
+  it "has 5 books in each page in book index" do
+    30.times { FactoryGirl.create(:book) }
+    number_of_books_per_page = 5
+
+    visit books_path
+    click_on ("2")
+
+    expect(page).to have_selector('tbody tr', count: number_of_books_per_page)
+  end
 end
