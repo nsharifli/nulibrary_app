@@ -63,6 +63,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'chromedriver-helper'
   gem 'selenium-webdriver'
+  gem 'timecop'
 end
 
 group :test do

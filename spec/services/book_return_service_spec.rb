@@ -8,11 +8,12 @@ RSpec.describe BookReturnService do
       inventory = book.inventory
       inventory.update_attributes(current_quantity: 0)
       transaction = FactoryGirl.create(:transaction, :unreturned, book: book, user: user)
+      Timecop.freeze(Time.zone.now)
 
       result = BookReturnService.return(book: book, user: user)
 
       expect(result).to eq(true)
-      expect(transaction.reload.returned_at).not_to eq(nil)
+      expect(transaction.reload.returned_at).to eq(Time.zone.now)
       expect(inventory.reload.current_quantity).to eq(1)
     end
 
