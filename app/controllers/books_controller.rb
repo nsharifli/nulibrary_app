@@ -5,7 +5,7 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
-    @currently_using_users = Transaction.currently_reading_users(book: @book)
+    @currently_using_users = Transaction.unreturned_transactions(book: @book)
   end
 
   def borrow

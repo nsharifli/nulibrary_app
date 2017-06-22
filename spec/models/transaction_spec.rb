@@ -10,7 +10,7 @@ RSpec.describe Transaction, type: :model do
       transaction_2 = FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_1, borrowed_at: '2016-12-31 15:00:00')
       transaction_3 = FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_2, borrowed_at: '2016-12-31 16:00:00')
 
-      transactions = Transaction.currently_reading_users(book: book_1)
+      transactions = Transaction.unreturned_transactions(book: book_1)
 
       expect(transactions.where(user_id: user_1.id).count).to eq(2)
       expect(transactions.where(user_id: user_2.id).count).to eq(1)
