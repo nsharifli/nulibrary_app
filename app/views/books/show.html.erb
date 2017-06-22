@@ -23,11 +23,31 @@
           <td>
             <% if borrow_allow?(@book) %>
                 <%= button_to "Borrow", borrow_book_path, { class: 'borrow-button ui button'} %>
+            <% else %>
+                <%= button_to "Not Available", '#', { class: 'negative disabled ui button', id: "status"} %>
             <% end %>
           </td>
         </tr>
         </tbody>
       </table>
+
+      <table class="ui table">
+        <thead>
+        <tr>
+          <th>User</th>
+          <th>Borrowed at</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @currently_using_users.each do |transaction| %>
+          <tr>
+            <td id="borrowed-user"> <%= transaction.user.email %> </td>
+            <td id="borrow-time"> <%= transaction.borrowed_at %> </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
     </div>
     <div class="row">
       <div class="sixteen wide column">
