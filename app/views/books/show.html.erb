@@ -24,7 +24,7 @@
             <% if borrow_allow?(@book) %>
                 <%= button_to "Borrow", borrow_book_path, { class: 'borrow-button ui button'} %>
             <% else %>
-                <%= button_to "Not Available", '#', { class: 'negative disabled ui button', id: "status"} %>
+                <%= button_to "Hold", hold_book_path, { class: 'ui button' } %>
             <% end %>
           </td>
         </tr>
