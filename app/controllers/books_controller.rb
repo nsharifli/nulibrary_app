@@ -36,6 +36,12 @@ class BooksController < ApplicationController
     end
   end
 
+  def hold
+    book = Book.find(params[:id])
+    flash[:success] = "Successfully placed a hold for #{book.title}"
+    redirect_to book_path(book.id)
+  end
+
   def new
     if current_user.admin?
       @book = Book.new
