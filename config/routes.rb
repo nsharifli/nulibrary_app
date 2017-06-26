@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     member do
       post :borrow
       put :return
+      post :hold
     end
   end
   resources :transactions
