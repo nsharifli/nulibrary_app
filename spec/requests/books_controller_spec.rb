@@ -74,6 +74,25 @@ RSpec.describe BooksController, type: :request do
     end
   end
 
+  describe "GET books#hold" do
+    it "cannot place a hold for a book if user is not logged in" do
+      post hold_book_path(book_1.id)
+      expect(response).to redirect_to(book_path(book_1.id))
+      follow_redirect!
+      expect(response.body).to include "Please log in to place a hold for a book"
+    end
+
+    it "succesfully places a hold for a book when user is logged in" do
+      user = FactoryGirl.create(:user)
+      sign_in user
+      post hold_book_path(book_1.id)
+
+      expect(response).to redirect_to(book_path(book_1.id))
+      follow_redirect!
+      expect(response.body).to include "Successfully placed a hold for #{book_1.title}"
+    end
+  end
+
   describe "GET books#new" do
     it "displays a new book form" do
       admin = FactoryGirl.create(:user, admin: true)

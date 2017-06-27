@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "User", type: :feature do
+RSpec.describe "User", type: :feature, driver: :selenium do
   context "Logged in" do
     before do
       user_1 = FactoryGirl.create(:user)
@@ -37,6 +37,18 @@ RSpec.describe "User", type: :feature do
       visit book_path(book_2.id)
 
       expect(page).to have_no_selector(".borrow-button")
+    end
+
+    it "places a hold to book through book details page" do
+      book_1 = FactoryGirl.create(:book)
+      book_1.inventory.update_attributes!(current_quantity: 0)
+
+      visit book_path(book_1.id)
+
+      click_button("Hold")
+
+      expect(page).to have_current_path(book_path(book_1.id))
+      expect(page).to have_selector(".green", text: "Successfully placed a hold for #{book_1.title}")
     end
   end
 

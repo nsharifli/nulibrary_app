@@ -1,4 +1,11 @@
 FactoryGirl.define do
+  factory :hold do
+    requested_at "2017-06-26 11:48:20"
+    closed_at nil
+    sent_email nil
+    user nil
+    book nil
+  end
   factory :transaction do
     borrowed_at "2017-06-06 17:08:34"
     returned_at "2017-06-06 17:08:34"

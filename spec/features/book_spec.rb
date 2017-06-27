@@ -39,7 +39,7 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
       expect(page).to have_content("Current quantity")
     end
 
-    it "has book status(availability, who has it, how long they have had it) if user is logged in" do
+    it "has book status(who has it, how long they have had it) if user is logged in" do
       user_2 = FactoryGirl.create(:user, email: "user2@test.com")
       log_in_user(user_2)
       visit book_path(book_1.id)
@@ -50,7 +50,6 @@ RSpec.describe "Nulibrary", type: :feature, driver: :selenium do
       visit book_path(book_1.id)
       transaction = Transaction.find_by(user: user_2, book: book_1)
 
-      expect(page).to have_selector("#status")
       expect(page).to have_selector("#borrowed-user", text: user_2.email)
       expect(page).to have_selector("#borrow-time", text: transaction.borrowed_at)
     end
