@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "User", type: :feature do
+RSpec.describe "User", type: :feature, driver: :selenium do
   context "Logged in" do
     before do
       user_1 = FactoryGirl.create(:user)

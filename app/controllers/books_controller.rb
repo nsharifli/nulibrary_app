@@ -39,8 +39,13 @@ class BooksController < ApplicationController
   def hold
     book = Book.find(params[:id])
     if user_signed_in?
-      flash[:success] = "Successfully placed a hold for #{book.title}"
-      redirect_to book_path(book.id)
+      placed_hold = BookHoldService.hold(user: current_user, book: book)
+      if placed_hold
+        flash[:success] = "Successfully placed a hold for #{book.title}"
+        redirect_to book_path(book.id)
+      else
+        flash[:alert] = "Can not place a hold for #{book.title}"
+      end
     else
       flash[:alert] = "Please log in to place a hold for a book"
       redirect_to book_path(book.id)
