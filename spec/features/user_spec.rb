@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "User", type: :feature, driver: :selenium do
   context "Logged in" do
+    let(:user_1){ FactoryGirl.create(:user)}
     before do
-      user_1 = FactoryGirl.create(:user)
       visit root_path
       log_in_user(user_1)
     end
@@ -50,6 +50,28 @@ RSpec.describe "User", type: :feature, driver: :selenium do
       expect(page).to have_current_path(book_path(book_1.id))
       expect(page).to have_selector(".green", text: "Successfully placed a hold for #{book_1.title}")
     end
+
+    it "can not place a hold for a book that is checked out by herself" do
+      book_1 = FactoryGirl.create(:book)
+      book_1.inventory.update_attributes!(current_quantity: 0)
+      FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_1)
+
+      visit book_path(book_1.id)
+
+      expect(page).to have_selector(".borrowed-book-button")
+    end
+
+    it "can not place a hold for a book given that she placed a hold for that book before" do
+      book_1 = FactoryGirl.create(:book)
+      book_1.inventory.update_attributes!(current_quantity: 0)
+      FactoryGirl.create(:hold, book: book_1, user: user_1)
+
+      visit book_path(book_1.id)
+
+      expect(page).not_to have_selector(".hold-button")
+      expect(page).to have_selector(".placed-hold-button")
+    end
+
   end
 
   context "Not logged in" do

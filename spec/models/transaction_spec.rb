@@ -19,6 +19,37 @@ RSpec.describe Transaction, type: :model do
       expect(transactions.where(borrowed_at: transaction_3.borrowed_at).count).to eq(1)
     end
   end
+
+  describe "#unreturned_book_exists?" do
+    it "returns true if user has that book but not returned it" do
+      book_1 = FactoryGirl.create(:book)
+      user_1 = FactoryGirl.create(:user)
+      FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_1)
+
+      result = Transaction.unreturned_book_exists?(book: book_1, user: user_1)
+
+      expect(result).to eq(true)
+    end
+
+    it "returns false if user has that book but returned it" do
+      book_1 = FactoryGirl.create(:book)
+      user_1 = FactoryGirl.create(:user)
+      FactoryGirl.create(:transaction, book: book_1, user: user_1)
+
+      result = Transaction.unreturned_book_exists?(book: book_1, user: user_1)
+
+      expect(result).to eq(false)
+    end
+
+    it "returns false if user has never borrowed that book" do
+      book_1 = FactoryGirl.create(:book)
+      user_1 = FactoryGirl.create(:user)
+
+      result = Transaction.unreturned_book_exists?(book: book_1, user: user_1)
+
+      expect(result).to eq(false)
+    end
+  end
 end
 
 
