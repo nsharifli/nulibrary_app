@@ -22,9 +22,11 @@
           <td><%= @book.current_quantity %></td>
           <td>
             <% if borrow_allow?(@book) %>
-                <%= button_to "Borrow", borrow_book_path, { class: 'borrow-button ui button'} %>
-            <% else %>
+                <%= button_to "Borrow", borrow_book_path, { class: 'borrow-button ui positive button'} %>
+            <% elsif hold_allow?(@book) %>
                 <%= button_to "Hold", hold_book_path, { class: 'ui button' } %>
+            <% elsif user_signed_in? %>
+                <%= button_to "Checked out", '#', {class: 'borrowed-book-button ui button disabled'} %>
             <% end %>
           </td>
         </tr>

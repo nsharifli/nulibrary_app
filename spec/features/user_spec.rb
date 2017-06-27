@@ -57,8 +57,9 @@ RSpec.describe "User", type: :feature, driver: :selenium do
       FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_1)
 
       visit book_path(book_1.id)
+      sleep(2)
 
-      expect(page).to have_selector(".placed-hold-button")
+      expect(page).to have_selector(".borrowed-book-button")
     end
   end
 
