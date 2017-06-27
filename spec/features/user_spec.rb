@@ -57,10 +57,21 @@ RSpec.describe "User", type: :feature, driver: :selenium do
       FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_1)
 
       visit book_path(book_1.id)
-      sleep(2)
 
       expect(page).to have_selector(".borrowed-book-button")
     end
+
+    it "can not place a hold for a book given that she placed a hold for that book before" do
+      book_1 = FactoryGirl.create(:book)
+      book_1.inventory.update_attributes!(current_quantity: 0)
+      FactoryGirl.create(:hold, book: book_1, user: user_1)
+
+      visit book_path(book_1.id)
+
+      expect(page).not_to have_selector(".hold-button")
+      expect(page).to have_selector(".placed-hold-button")
+    end
+
   end
 
   context "Not logged in" do
