@@ -1,6 +1,6 @@
 module BooksHelper
   def borrow_allow?(book)
-    user_signed_in? && book.in_stock?
+    user_signed_in? && book.in_stock? && !checked_out_book?(book)
   end
 
   def hold_allow?(book)
