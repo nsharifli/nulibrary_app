@@ -39,6 +39,17 @@ RSpec.describe "User", type: :feature, driver: :selenium do
       expect(page).to have_no_selector(".borrow-button")
     end
 
+    it "can not check out a book that he/she has currently checked out" do
+      book_1 = FactoryGirl.create(:book)
+      book_1.inventory.update_attributes(total_quantity: 2)
+      FactoryGirl.create(:transaction, :unreturned, book: book_1, user: user_1)
+
+      visit book_path(book_1.id)
+
+      expect(page).to have_no_selector(".borrow-button")
+      expect(page).to have_selector(".borrowed-book-button")
+    end
+
     it "places a hold to book through book details page" do
       book_1 = FactoryGirl.create(:book)
       book_1.inventory.update_attributes!(current_quantity: 0)
