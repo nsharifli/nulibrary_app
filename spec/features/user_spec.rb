@@ -84,28 +84,23 @@ RSpec.describe "User", type: :feature, driver: :selenium do
     end
 
     it "can not check-out a book that is on hold for another user" do
+      user_2 = FactoryGirl.create(:user)
+      user_3 = FactoryGirl.create(:user)
+
       #User 1 borrows a book
       book_1 = FactoryGirl.create(:book)
-      visit book_path(book_1.id)
-      click_on("Borrow")
-      click_on("Sign out")
+      transaction_1 = FactoryGirl.create(:transaction, user: user_1, book: book_1)
+      book_1.inventory.update_attributes!(current_quantity: 0)
 
       #User 2 places a hold
-      user_2 = FactoryGirl.create(:user)
-      log_in_user(user_2)
-      visit book_path(book_1.id)
-      click_on("Hold")
-      click_on("Sign out")
+      FactoryGirl.create(:hold, user: user_2, book: book_1)
 
-      #User 1 returns a book
-      log_in_user(user_1)
-      visit transactions_path
-      click_on("Return")
-      click_on("Sign out")
+      # #User 1 returns a book
+      transaction_1.update_attributes!(returned_at: "2017-06-06 17:08:34")
+      book_1.inventory.update_attributes!(current_quantity: 1)
 
       #User 3 tries to borrow the book
-
-      user_3 = FactoryGirl.create(:user)
+      click_on("Sign out")
       log_in_user(user_3)
       visit book_path(book_1.id)
 
