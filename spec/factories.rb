@@ -9,6 +9,8 @@ FactoryGirl.define do
   factory :transaction do
     borrowed_at "2017-06-06 17:08:34"
     returned_at "2017-06-06 17:08:34"
+    user nil
+    book nil
 
     trait :unreturned do
       returned_at nil
@@ -30,7 +32,7 @@ FactoryGirl.define do
     end
   end
   factory :user do
-    email 'example@example.com'
+    sequence(:email) { |n| "example#{n}@example.com" }
     password 'password'
   end
 end

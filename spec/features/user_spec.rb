@@ -91,7 +91,7 @@ RSpec.describe "User", type: :feature, driver: :selenium do
       click_on("Sign out")
 
       #User 2 places a hold
-      user_2 = FactoryGirl.create(:user, email: "user2@test.com")
+      user_2 = FactoryGirl.create(:user)
       log_in_user(user_2)
       visit book_path(book_1.id)
       click_on("Hold")
@@ -105,7 +105,7 @@ RSpec.describe "User", type: :feature, driver: :selenium do
 
       #User 3 tries to borrow the book
 
-      user_3 = FactoryGirl.create(:user, email: "user3@test.com")
+      user_3 = FactoryGirl.create(:user)
       log_in_user(user_3)
       visit book_path(book_1.id)
 
