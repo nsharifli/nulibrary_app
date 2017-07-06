@@ -83,6 +83,36 @@ RSpec.describe "User", type: :feature, driver: :selenium do
       expect(page).to have_selector(".placed-hold-button")
     end
 
+    it "can not check-out a book that is on hold for another user" do
+      #User 1 borrows a book
+      book_1 = FactoryGirl.create(:book)
+      visit book_path(book_1.id)
+      click_on("Borrow")
+      click_on("Sign out")
+
+      #User 2 places a hold
+      user_2 = FactoryGirl.create(:user, email: "user2@test.com")
+      log_in_user(user_2)
+      visit book_path(book_1.id)
+      click_on("Hold")
+      click_on("Sign out")
+
+      #User 1 returns a book
+      log_in_user(user_1)
+      visit transactions_path
+      click_on("Return")
+      click_on("Sign out")
+
+      #User 3 tries to borrow the book
+
+      user_3 = FactoryGirl.create(:user, email: "user3@test.com")
+      log_in_user(user_3)
+      visit book_path(book_1.id)
+
+      expect(page).not_to have_selector(".borrow-button")
+      expect(page).to have_selector(".hold-button")
+    end
+
   end
 
   context "Not logged in" do
