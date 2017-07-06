@@ -108,6 +108,33 @@ RSpec.describe "User", type: :feature, driver: :selenium do
       expect(page).to have_selector(".hold-button")
     end
 
+    it "can check-out a book for which the user has the earliest hold" do
+      book_1 = FactoryGirl.create(:book)
+      user_2 = FactoryGirl.create(:user)
+      user_3 = FactoryGirl.create(:user)
+
+      #User 2 places a hold
+      FactoryGirl.create(:hold, user: user_2, book: book_1, requested_at: "2017-06-26 11:48:20")
+
+      # User 3 places a later hold
+      FactoryGirl.create(:hold, user: user_3, book: book_1, requested_at: "2017-06-27 11:48:20")
+
+      #User 2 is able to borrow the book
+      click_on("Sign out")
+      log_in_user(user_2)
+      visit book_path(book_1.id)
+
+      expect(page).to have_selector(".borrow-button")
+      expect(page).not_to have_selector(".hold-button")
+
+      #User 3 is unable to borrow the book
+      click_on("Sign out")
+      log_in_user(user_3)
+      visit book_path(book_1.id)
+
+      expect(page).not_to have_selector(".borrow-button")
+    end
+
   end
 
   context "Not logged in" do
