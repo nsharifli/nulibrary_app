@@ -14,7 +14,8 @@ class BooksController < ApplicationController
       book_borrowed = BookBorrowService.borrow(user: current_user, book: book)
 
       if book_borrowed
-        flash.now[:success] = "Successfully borrowed"
+        flash[:success] = "Successfully borrowed"
+        redirect_to transactions_path
       else
         flash.now[:alert] = "Book is not available anymore"
       end
