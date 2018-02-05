@@ -28,11 +28,13 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include "Please log in to borrow a book"
     end
 
-    it "succesfully borrows a book when user is logged in" do
+    it "succesfully borrows a book when user is logged in and redirects to transactions page" do
       user = FactoryGirl.create(:user)
       sign_in user
       post borrow_book_path(book_1.id)
 
+      expect(response).to redirect_to(transactions_path)
+      follow_redirect!
       expect(response.body).to include "Successfully borrowed"
     end
 
