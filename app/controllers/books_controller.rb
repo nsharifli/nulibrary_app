@@ -17,7 +17,8 @@ class BooksController < ApplicationController
         flash[:success] = "Successfully borrowed"
         redirect_to books_path
       else
-        flash.now[:alert] = "Book is not available anymore"
+        flash[:alert] = "Book is not available anymore"
+        redirect_to books_path
       end
     else
       flash.now[:alert] = "Please log in to borrow a book"

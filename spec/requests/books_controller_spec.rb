@@ -45,6 +45,8 @@ RSpec.describe BooksController, type: :request do
       post borrow_book_path(book_1.id)
       post borrow_book_path(book_1.id)
 
+      expect(response).to redirect_to(books_path)
+      follow_redirect!
       expect(response.body).to include("Book is not available anymore")
     end
   end
