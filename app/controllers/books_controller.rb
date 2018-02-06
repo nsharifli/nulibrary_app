@@ -15,7 +15,7 @@ class BooksController < ApplicationController
 
       if book_borrowed
         flash[:success] = "Successfully borrowed"
-        redirect_to transactions_path
+        redirect_to books_path
       else
         flash.now[:alert] = "Book is not available anymore"
       end
