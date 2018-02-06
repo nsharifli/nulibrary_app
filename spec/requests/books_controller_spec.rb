@@ -25,15 +25,17 @@ RSpec.describe BooksController, type: :request do
     it "cannot borrow a book if user is not logged in" do
       post borrow_book_path(book_1.id)
 
+      expect(response).to redirect_to(new_user_session_path)
+      follow_redirect!
       expect(response.body).to include "Please log in to borrow a book"
     end
 
-    it "succesfully borrows a book when user is logged in and redirects to transactions page" do
+    it "succesfully borrows a book when user is logged in and redirects to books index page" do
       user = FactoryGirl.create(:user)
       sign_in user
       post borrow_book_path(book_1.id)
 
-      expect(response).to redirect_to(transactions_path)
+      expect(response).to redirect_to(books_path)
       follow_redirect!
       expect(response.body).to include "Successfully borrowed"
     end
@@ -45,6 +47,8 @@ RSpec.describe BooksController, type: :request do
       post borrow_book_path(book_1.id)
       post borrow_book_path(book_1.id)
 
+      expect(response).to redirect_to(books_path)
+      follow_redirect!
       expect(response.body).to include("Book is not available anymore")
     end
   end
