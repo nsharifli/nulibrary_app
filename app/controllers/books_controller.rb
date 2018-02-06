@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  skip_before_action :verify_authenticity_token , only: [:index, :show, :borrow]
+
   def index
     @books = Book.order(:title).paginate(page: params[:page], per_page: 5)
   end
@@ -21,7 +23,8 @@ class BooksController < ApplicationController
         redirect_to books_path
       end
     else
-      flash.now[:alert] = "Please log in to borrow a book"
+      flash[:alert] = "Please log in to borrow a book"
+      redirect_to new_user_session_path
     end
   end
 

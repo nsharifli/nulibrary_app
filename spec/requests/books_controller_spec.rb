@@ -25,6 +25,8 @@ RSpec.describe BooksController, type: :request do
     it "cannot borrow a book if user is not logged in" do
       post borrow_book_path(book_1.id)
 
+      expect(response).to redirect_to(new_user_session_path)
+      follow_redirect!
       expect(response.body).to include "Please log in to borrow a book"
     end
 
