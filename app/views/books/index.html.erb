@@ -21,6 +21,9 @@
           <td>
             <%= book.author %>
           </td>
+          <td>
+            <%= link_to 'Delete', book_path(book), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
         </tr>
       <% end %>
     </tbody>

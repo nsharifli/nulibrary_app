@@ -1,5 +1,5 @@
 class Book < ApplicationRecord
-  has_one :inventory
+  has_one :inventory, dependent: :destroy
   has_many :transactions
   # Validation
   validates :isbn, presence: true, uniqueness: true

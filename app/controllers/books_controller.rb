@@ -88,6 +88,18 @@ class BooksController < ApplicationController
     end
   end
 
+  def destroy
+    book = Book.find(params[:id])
+    success = BookDeleteService.delete(params[:id])
+
+    if success
+      flash[:success] = "Successfully deleted #{book.title}"
+    else
+      flash[:alert] = "Cannot delete #{book.title} since it is checked out"
+    end
+    redirect_to books_path
+  end
+
   private
 
   def book_params

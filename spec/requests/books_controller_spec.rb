@@ -151,4 +151,35 @@ RSpec.describe BooksController, type: :request do
       expect(response.body).to include("Book is not found")
     end
   end
+
+  describe "books#destroy" do
+    it "deletes book successfully if book is not checked out by anyone" do
+      admin = FactoryGirl.create(:user, admin: true)
+      book = FactoryGirl.create(:book)
+
+      sign_in admin
+
+      expect do
+        delete book_path(book.id)
+      end.to change { Book.count }.by(-1).and change { Inventory.count }.by(-1)
+
+      follow_redirect!
+      expect(response.body).to include "Successfully deleted #{book.title}"
+    end
+
+    it "doesn't delete book if it is checked out" do
+      admin = FactoryGirl.create(:user, admin: true)
+      book = FactoryGirl.create(:book)
+      FactoryGirl.create(:transaction, user: admin, book: book)
+
+      sign_in admin
+
+      expect do
+        delete book_path(book.id)
+      end.not_to change { Book.count }
+
+      follow_redirect!
+      expect(response.body).to include "Cannot delete #{book.title} since it is checked out"
+    end
+  end
 end
