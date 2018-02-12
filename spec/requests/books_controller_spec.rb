@@ -181,5 +181,20 @@ RSpec.describe BooksController, type: :request do
       follow_redirect!
       expect(response.body).to include "Cannot delete #{book.title} since it is checked out"
     end
+
+    it "provides an error if book is already deleted" do
+      admin = FactoryGirl.create(:user, admin: true)
+      book = FactoryGirl.create(:book)
+
+      sign_in admin
+      delete book_path(book.id)
+
+      expect do
+        delete book_path(book.id)
+      end.not_to change { Book.count }
+
+      follow_redirect!
+      expect(response.body).to include "Book has already been deleted"
+    end
   end
 end
