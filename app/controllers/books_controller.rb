@@ -89,14 +89,20 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    book = Book.find(params[:id])
-    success = BookDeleteService.delete(params[:id])
+    book = Book.find_by(id: params[:id])
 
-    if success
-      flash[:success] = "Successfully deleted #{book.title}"
+    if book
+      success = BookDeleteService.delete(params[:id])
+
+      if success
+        flash[:success] = "Successfully deleted #{book.title}"
+      else
+        flash[:alert] = "Cannot delete #{book.title} since it is checked out"
+      end
     else
-      flash[:alert] = "Cannot delete #{book.title} since it is checked out"
+      flash[:alert] = "Book has already been deleted"
     end
+
     redirect_to books_path
   end
 
