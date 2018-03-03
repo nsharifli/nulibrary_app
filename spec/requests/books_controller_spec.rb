@@ -153,6 +153,19 @@ RSpec.describe BooksController, type: :request do
   end
 
   describe "books#destroy" do
+    it "redirects to books index page if user is not admin" do
+      user = FactoryGirl.create(:user)
+      book = FactoryGirl.create(:book)
+
+      sign_in user
+
+      expect do
+        delete book_path(book.id)
+      end.to change { Book.count }.by(0)
+
+      follow_redirect!
+      expect(response).to redirect_to(root_path)
+    end
     it "deletes book successfully if book is not checked out by anyone" do
       admin = FactoryGirl.create(:user, admin: true)
       book = FactoryGirl.create(:book)
